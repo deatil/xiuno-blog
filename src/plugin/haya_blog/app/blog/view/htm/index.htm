@@ -1,0 +1,189 @@
+<?php include _include(APP_PATH.'view/htm/header.inc.htm');?>
+
+<!--{hook plugin_haya_blog_index_start.htm}-->
+
+<div class="row">
+    <div class="col-lg-9 main">
+        <!--{hook plugin_haya_blog_index_breadcrumb_before.htm}-->
+        <?php if(empty($hide_breadcrumb)) { ?>
+        <ol class="breadcrumb d-none d-md-flex">
+            <li class="breadcrumb-item"><a href="./" aria-label="<?php echo lang('index_page');?>"><i class="icon-home"></i></a></li>
+            <li class="breadcrumb-item active"><a href="<?php echo haya_blog_url();?>">专栏</a></li>
+            <!--{hook plugin_haya_blog_index_breadcrumb.htm}-->
+        </ol>
+        <?php } ?>
+        <!--{hook plugin_haya_blog_index_breadcrumb_after.htm}-->
+                
+        <div class="card card-threadlist">
+            <div class="card-header d-flex justify-content-between">
+                <ul class="nav nav-tabs card-header-tabs">
+                    <li class="nav-item haya-blog-index-nav">
+                        <a class="nav-link active" href="<?php echo haya_blog_url();?>">最新</a>
+                    </li>
+                    <!--{hook plugin_haya_blog_index_thread_list_nav_item_after.htm}-->
+                </ul>
+                
+                <!--{hook plugin_haya_blog_index_thread_list_dropdown_before.htm}-->
+                <div class="text-right text-small pt-1 card-header-dropdown">
+                    <div class="btn-toolbar" role="toolbar">
+                        <span class="text-muted">排序：</span>
+                        <div class="dropdown btn-group">
+                            <a href="#" class="dropdown-toggle" id="ordery_dropdown_menu" 
+                                data-toggle="dropdown" 
+                                aria-haspopup="true" 
+                                aria-expanded="false"
+                                >
+                                <?php echo $order == 'hits' ? '热门文章' : '最新发布'; ?>
+                                <!--{hook plugin_haya_blog_index_thread_list_dropdown_toggle.htm}-->
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right" 
+                                aria-labelledby="ordery_dropdown_menu">
+                                <a class="dropdown-item" href="<?php echo haya_blog_url("index-".$category_name."-1", array('order'=>'time') + $extra);?>">
+                                    <i class="icon text-primary <?php echo $order == 'time' ? 'icon-check' : '';?>"></i>
+                                    &nbsp; 最新发布
+                                </a>
+                                <a class="dropdown-item" href="<?php echo haya_blog_url("index-".$category_name."-1", array('order'=>'hits') + $extra);?>">
+                                    <i class="icon text-primary <?php echo $order == 'hits' ? 'icon-check' : '';?>"></i>
+                                    &nbsp; 热门文章
+                                </a>
+                                <!--{hook plugin_haya_blog_index_thread_list_dropdown_menu.htm}-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--{hook plugin_haya_blog_index_thread_list_dropdown_after.htm}-->
+            </div>
+            
+            <div class="card-body">
+                <ul class="list-unstyled threadlist mb-0">
+                    <!--{hook plugin_haya_blog_index_articlelist_before.htm}-->
+                    <?php include haya_blog_theme_view('index_list.inc.htm');?>
+                    <!--{hook plugin_haya_blog_index_articlelist_after.htm}-->
+                </ul>
+            </div>
+        </div>
+        
+        <!--{hook plugin_haya_blog_index_page_before.htm}-->
+        <nav class="my-3">
+            <ul class="pagination justify-content-center flex-wrap">
+                <?php echo $pagination; ?>
+            </ul>
+        </nav>
+        <!--{hook plugin_haya_blog_index_page_after.htm}-->
+    </div>
+    
+    <div class="col-lg-3 d-none d-lg-block aside">
+        <!--{hook plugin_haya_blog_index_create_before.htm}-->
+    
+        <?php 
+        $haya_blog_check_apply = haya_blog_check_apply($gid);
+        $haya_blog_check_author = haya_blog_check_author($uid);
+        if ($haya_blog_check_author) { 
+        ?>
+            <a role="button" class="btn btn-primary btn-block mb-3" href="<?php echo haya_blog_url("myarticle-create"); ?>" target="_blank">
+                发布文章
+            </a>
+        <?php } elseif ($haya_blog_check_apply) { ?>
+            <a role="button" class="btn btn-primary btn-block mb-3" class="list-group-item list-group-item-action" href="<?php echo haya_blog_url('apply');?>">申请专栏</a>
+        <?php } ?>
+        
+        <!--{hook plugin_haya_blog_index_create_after.htm}-->
+        
+        <div class="card">
+            <div class="card-header">分类</div>
+        
+            <div class="card-body py-3">
+                
+                <ul class="list-unstyled haya-blog-category-list m-0">
+                    <li class="media haya-blog-li line-height-2">
+                        <div class="media-body small">
+                            <a title="全部" href="<?php echo haya_blog_url("index-all"); ?>">
+                                全部
+                            </a>
+                        </div>
+                        
+                        <?php if (empty($category_name) || $category_name == 'all') { ?>
+                            <span class="pull-right label label-info haya-blog-category-articles">
+                                <?php echo haya_blog_friend_num($total); ?>
+                            </span>
+                        <?php } else { ?>
+                            <span class="pull-right label label-default haya-blog-category-articles">
+                                <?php echo haya_blog_friend_num($total); ?>
+                            </span>
+                        <?php } ?>
+                    </li>
+                    
+                    <?php 
+                    if(!empty($categorys)) { 
+                        foreach($categorys as & $_category) { 
+                    ?>
+                        <li class="media haya-blog-li line-height-2">
+                            <div class="media-body small">
+                                <a title="<?php echo $_category['title'];?>" href="<?php echo haya_blog_url("index-".$_category['name']); ?>">
+                                    <?php echo $_category['title'];?>
+                                </a>
+                            </div>
+                            
+                            <?php if (!empty($category_name) && $category_name == $_category['name']) { ?>
+                                <span class="pull-right label label-info haya-blog-category-articles">
+                                    <?php echo haya_blog_friend_num($_category['articles']); ?>
+                                </span>
+                            <?php } else { ?>
+                                <span class="pull-right label label-default haya-blog-category-articles">
+                                    <?php echo haya_blog_friend_num($_category['articles']); ?>
+                                </span>
+                            <?php } ?>
+                        </li>
+                    <?php }} ?>
+                </ul>
+            </div>
+        </div>
+        
+        <!--{hook plugin_haya_blog_index_categorys_after.htm}-->
+    
+        <div class="card">
+            <div class="card-header">推荐文章</div>
+        
+            <div class="card-body py-3">
+                
+                <ul class="list-unstyled haya-blog-recommend-list m-0">
+                    <?php $article_i = 1; ?>
+                    <?php if($recommend_articles) { foreach($recommend_articles as & $_recommend_article) { ?>
+                        <li class="media haya-blog-li line-height-2" data-aid="<?php echo $_recommend_article['id'];?>">
+                            <div class="media-body small">
+                                <a title="<?php echo $_recommend_article['title'];?>" href="<?php echo haya_blog_url("article-$_recommend_article[id]");?>">
+                                    <?php echo $_recommend_article['title'];?>
+                                </a>
+                                
+                                <span class="pull-right haya-blog-article-time" title="<?php echo date('Y-m-d H:i:s', $_recommend_article['create_date']); ?>">
+                                    <?php echo haya_blog_humandate($_recommend_article['create_date']); ?>
+                                </span>
+                            </div>
+                        </li>
+                        <?php $article_i ++; ?>
+                    <?php }} else { ?>
+                        <li class="media py-1">
+                            <div class="text-center text-muted">没有文章</div>
+                        </li>
+                    <?php } ?>
+                </ul>
+            </div>
+        </div>
+        
+        <!--{hook plugin_haya_blog_index_recommend_after.htm}-->
+        
+    </div>
+</div>
+
+
+<!--{hook plugin_haya_blog_index_end.htm}-->
+
+<?php include _include(APP_PATH.'view/htm/footer.inc.htm');?>
+
+<script>
+$(function() {
+    $('li[data-active="haya-blog"]').addClass('active');
+});
+</script>
+
+<!--{hook plugin_haya_blog_index_js.htm}-->

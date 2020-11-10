@@ -1,0 +1,126 @@
+<!--{hook palugin_haya_blog_article_commentlist_before.htm}-->
+
+<?php 
+$haya_blog_article_comment_pagesize = haya_blog_config('blog_article_comment_pagesize', 10);
+$haya_blog_article_comment_page = param(3, 1);
+$haya_blog_article_comment_where = array(
+    'aid' => $id,
+    'is_lock' => 0,
+    'status' => 1,
+);
+$haya_blog_article_comment_order = array(
+    'create_date' => 1,
+    'id' => 1,
+);
+
+// hook plugin_haya_blog_article_comment_before.php
+
+$haya_blog_article_comment_total = haya_blog_article_comment__count($haya_blog_article_comment_where);
+$haya_blog_article_comment_list = haya_blog_article_comment_find($haya_blog_article_comment_where, $haya_blog_article_comment_order, $haya_blog_article_comment_page, $haya_blog_article_comment_pagesize);
+$haya_blog_article_comment_pagination = pagination(haya_blog_url("article-{$id}-{page}")."#comments", $haya_blog_article_comment_total, $haya_blog_article_comment_page, $haya_blog_article_comment_pagesize);
+
+// hook plugin_haya_blog_article_comment_after.php
+?>
+<div class="card card-commentlist" id="comments">
+    <div class="card-body">
+        <div class="card-title">
+            <div class="d-flex justify-content-between">
+                <div>
+                    <b>最新评论</b> (<span class="comments"><?php echo $haya_blog_article['reply'];?></span>)
+                </div>
+                <!--{hook palugin_haya_blog_article_post_list_title_middle.htm}-->
+                <div>
+                    <!--{hook palugin_haya_blog_article_post_list_title_right.htm}-->
+                </div>
+            </div>
+        </div>
+        
+        <ul class="list-unstyled commentlist">
+            <?php include haya_blog_theme_view('article_comment_list.inc.htm'); ?>
+        </ul>
+    </div>
+    
+    <?php if (!empty($haya_blog_article_comment_pagination)) { ?>
+        <nav><ul class="pagination mb-4 justify-content-center flex-wrap"><?php echo $haya_blog_article_comment_pagination; ?></ul></nav>
+    <?php } ?>
+</div>
+
+<?php $open_article_comment = haya_blog_config('open_article_comment'); ?>
+<?php 
+if($open_article_comment == 1 
+    && $haya_blog_article['is_reply'] == 1) { 
+?>
+    <?php if(!empty($user)) { ?>
+    <div class="card haya-blog-reply">
+        <div class="p-3 d-none haya-blog-comment-reply-body">
+            <div class="haya-blog-comment-reply-quote">
+                <div class="haya-blog-comment-reply-quote-title">
+                    <span class="text-muted">回复：</span>
+                    <span class="haya-blog-comment-reply-username">--</span>
+                </div>
+                <div class="pt-2 break-all haya-blog-comment-reply-quote-content">--</div>
+            </div>
+            
+            <div class="text-right text-muted haya-blog-comment-reply-remove">
+                <a href="javascript:void(0)" class="text-grey small js-haya-blog-comment-reply-remove-btn" title="取消回复">
+                    <i class="icon-remove"></i> 
+                    <span>取消</span>
+                </a>
+            </div>
+        </div>
+        
+        <div class="card-body">
+            <div class="card-title">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <b>发表评论</b>
+                    </div>
+                    <!--{hook palugin_haya_blog_article_post_list_title_middle.htm}-->
+                    <div>
+                        <!--{hook palugin_haya_blog_article_post_list_title_right.htm}-->
+                    </div>
+                </div>
+            </div>
+            
+            <div class="haya-blog-reply">
+                <div class="haya-blog-new-comment media">
+                    <a href="<?php echo url("user-$user[uid]");?>" class="mr-3" tabindex="-1">
+                        <img class="avatar-3" src="<?php echo $user['avatar_url'];?>">
+                    </a>
+                    <div class="media-body">
+                        <div class="d-flex justify-content-between small text-muted">
+                            <div>
+                                <div><?php echo $user['username'];?></div>
+                            </div>
+                        </div>
+                        <div>
+                            <form action="<?php echo haya_blog_url("comment-create-$id");?>" method="post" id="quick_reply_form" class="d-block">	
+                                <input type="hidden" name="reply" value="0" class="haya-blog-comment-reply-id" />
+                                <input type="hidden" name="return_html" value="1" />
+                                
+                                <!--{hook palugin_haya_blog_article_reply_message_before.htm}-->
+                                <div class="message mt-1">
+                                    <textarea class="form-control" placeholder="评论内容" name="content" id="message"></textarea>
+                                </div>
+                                <!--{hook palugin_haya_blog_article_reply_message_after.htm}-->
+                                <div class="text-muted mt-2 small">
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                            <!--{hook palugin_haya_blog_article_reply_left_start.htm}-->
+                                            <button type="submit" class="btn btn-sm btn-secondary" id="submit" data-loading-text="<?php echo lang('submiting');?>..."> <?php echo lang('post_create');?> </button>
+                                            <!--{hook palugin_haya_blog_article_reply_left_end.htm}-->
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--{hook palugin_haya_blog_article_reply_submit_after.htm}-->
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php } ?>
+<?php } ?>
+
+<!--{hook palugin_haya_blog_article_commentlist_after.htm}-->

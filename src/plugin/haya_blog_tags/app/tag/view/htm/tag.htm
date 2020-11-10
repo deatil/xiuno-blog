@@ -1,0 +1,117 @@
+<?php include _include(APP_PATH.'view/htm/header.inc.htm');?>
+
+<!--{hook plugin_haya_blog_tags_tag_start.htm}-->
+
+<div class="row">
+    <div class="col-lg-9 main">
+        <!--{hook plugin_haya_blog_tags_tag_breadcrumb_before.htm}-->
+        <?php if(empty($hide_breadcrumb)) { ?>
+        <ol class="breadcrumb d-none d-md-flex">
+            <li class="breadcrumb-item"><a href="./" aria-label="<?php echo lang('index_page');?>"><i class="icon-home"></i></a></li>
+            <li class="breadcrumb-item"><a href="<?php echo url("haya_blog_tags-index");?>">标签</a></li>
+            <li class="breadcrumb-item active"><a href="<?php echo url("haya_blog_tags-tag", array('name' => xn_urlencode($tag_info['name'])));?>"><?php echo $tag_info['name']; ?></a></li>
+            <!--{hook plugin_haya_blog_tags_tag_breadcrumb.htm}-->
+        </ol>
+        <?php } ?>
+        <!--{hook plugin_haya_blog_tags_tag_breadcrumb_after.htm}-->
+        
+        <div class="card card-threadlist">
+            <div class="card-header d-flex justify-content-between">
+                <ul class="nav nav-tabs card-header-tabs">
+                    <li class="nav-item haya-blog-index-nav">
+                        <a class="nav-link active" href="javascript:;">最新</a>
+                    </li>
+                    <!--{hook plugin_haya_blog_tags_tag_list_nav_item_after.htm}-->
+                </ul>
+                
+                <!--{hook plugin_haya_blog_tags_tag_list_dropdown_after.htm}-->
+            </div>
+            
+            <div class="card-body">
+                <ul class="list-unstyled threadlist mb-0">
+                    <!--{hook plugin_haya_blog_tags_tag_articlelist_before.htm}-->
+                    <?php include _include($view_path . '/tag_list.inc.htm');?>
+                    <!--{hook plugin_haya_blog_tags_tag_articlelist_after.htm}-->
+                </ul>
+            </div>
+        </div>
+        
+        <!--{hook plugin_haya_blog_tags_tag_page_before.htm}-->
+        <nav class="my-3">
+            <ul class="pagination justify-content-center flex-wrap">
+                <?php echo $pagination; ?>
+            </ul>
+        </nav>
+        <!--{hook plugin_haya_blog_tags_tag_page_after.htm}-->
+    </div>
+    
+    <div class="col-lg-3 d-none d-lg-block aside">
+        <!--{hook plugin_haya_blog_tags_tag_side_start.htm}-->
+        
+        <div class="card">
+            <div class="card-header">标签信息</div>
+            
+            <div class="card-body">
+                <div class="mb-0 haya-blog-tags-tag-name" title="<?php echo $tag_info['name'];?>">
+                    <?php echo $tag_info['name'];?>
+                </div>
+                <!--{hook plugin_haya_blog_tags_tag_name_after.htm}-->
+            
+                <?php if (!empty($tag_info['description'])) { ?>
+                    <div class="text-grey mt-2 haya-blog-tags-tag-description">
+                        <?php echo $tag_info['description'];?>
+                    </div>
+                <?php } ?>
+                
+                <!--{hook plugin_haya_blog_tags_tag_description_after.htm}-->
+            </div>
+        </div>
+        
+        <!--{hook plugin_haya_blog_tags_tag_name_after.htm}-->
+    
+        <div class="card">
+            <div class="card-header">推荐标签</div>
+        
+            <div class="card-body py-3">
+                
+                <ul class="list-unstyled haya-blog-recommend-list m-0">
+                    <?php $i = 1; ?>
+                    <?php if($new_tags) { foreach($new_tags as & $_new_tag) { ?>
+                        <li class="media haya-blog-li line-height-2" data-id="<?php echo $_new_tag['id'];?>">
+                            <div class="media-body small">
+                                <a title="<?php echo $_new_tag['name'];?>" href="<?php echo url("haya_blog_tags-tag", array('name' => xn_urlencode($_new_tag['name'])));?>">
+                                    <?php echo $_new_tag['name'];?>
+                                </a>
+                                
+                                <span class="pull-right" title="<?php echo date('Y-m-d H:i:s', $_new_tag['create_date']); ?>">
+                                    <?php echo haya_blog_tags_humandate($_new_tag['create_date']); ?>
+                                </span>
+                            </div>
+                        </li>
+                        <?php $i ++; ?>
+                    <?php }} else { ?>
+                        <li class="media py-1">
+                            <div class="text-center text-muted">没有数据</div>
+                        </li>
+                    <?php } ?>
+                </ul>
+            </div>
+        </div>
+        
+        <!--{hook plugin_haya_blog_tags_tag_new_tags_after.htm}-->
+        
+    </div>
+</div>
+
+
+<!--{hook plugin_haya_blog_tags_tag_end.htm}-->
+
+<?php include _include(APP_PATH.'view/htm/footer.inc.htm');?>
+
+<script>
+$(function() {
+    $('li[data-active="haya-blog"]').addClass('active');
+});
+</script>
+
+<!--{hook plugin_haya_blog_tags_tag_js.htm}-->

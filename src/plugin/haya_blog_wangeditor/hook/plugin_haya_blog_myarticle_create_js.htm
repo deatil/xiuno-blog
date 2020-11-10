@@ -1,0 +1,64 @@
+<style>
+.w-e-text-container {
+    height: 318px !important;
+}
+</style>
+<script type="text/javascript" src="plugin/haya_blog_wangeditor/static/wangeditor/wangEditor.min.js"></script>
+<link rel="stylesheet" href="plugin/haya_blog_wangeditor/static/wangEditor-plugin/wangEditor-fullscreen-plugin/wangEditor-fullscreen-plugin.css">
+<script type="text/javascript" src="plugin/haya_blog_wangeditor/static/wangEditor-plugin/wangEditor-fullscreen-plugin/wangEditor-fullscreen-plugin.js"></script>
+<script>
+$(function() {
+    var s = '<div><div id="editor_content" style="height: 350px;"></div></div>';
+    var ec = $(s).find('#editor_content');
+    ec.insertAfter($("#content"));
+    $("#content").hide();
+
+    var E = window.wangEditor;
+    var editor = new E('#editor_content');
+    var content = $('#content');
+    editor.customConfig.onchange = function (html) {
+        // 监控变化，同步更新到 textarea
+        content.val(html)
+    }
+    
+    // 配置服务器端地址
+    editor.customConfig.uploadImgServer = '<?php echo url("haya_blog_wangeditor-create"); ?>';
+    // 将图片大小限制为 3M
+    editor.customConfig.uploadImgMaxSize = 3 * 1024 * 1024;
+    // 限制一次最多上传 2 张图片
+    editor.customConfig.uploadImgMaxLength = 2;
+    // 上传图片时，可自定义filename 
+    editor.customConfig.uploadFileName = 'img';
+    // withCredentials（跨域传递 cookie）
+    editor.customConfig.withCredentials = true;
+    // 将 timeout 时间改为 30s
+    editor.customConfig.uploadImgTimeout = 30000;
+    
+    // 自定义菜单配置
+    editor.customConfig.menus = [
+        'head',  // 标题
+        'bold',  // 粗体
+        'fontSize',  // 字号
+        'fontName',  // 字体
+        'italic',  // 斜体
+        'underline',  // 下划线
+        'strikeThrough',  // 删除线
+        'foreColor',  // 文字颜色
+        'backColor',  // 背景颜色
+        'link',  // 插入链接
+        'list',  // 列表
+        'justify',  // 对齐方式
+        'quote',  // 引用
+        // 'emoticon',  // 表情
+        'image',  // 插入图片
+        'table',  // 表格
+        'video',  // 插入视频
+        'code',  // 插入代码
+        'undo',  // 撤销
+        'redo'  // 重复
+    ];
+    editor.create();
+    E.fullscreen.init('#editor_content');
+    editor.txt.html(content.val());
+});
+</script>

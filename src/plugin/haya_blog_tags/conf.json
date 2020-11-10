@@ -1,0 +1,13 @@
+{
+    "name": "博客标签",
+    "brief": "博客文章标签",
+    "version": "1.0.2",
+    "author": "deatil",
+    "id": "haya_blog_tags",
+    "bbs_version": "4.0",
+    "installed": 1,
+    "enable": 1,
+    "hooks_rank": [],
+    "overwrites_rank": [],
+    "dependencies": []
+}

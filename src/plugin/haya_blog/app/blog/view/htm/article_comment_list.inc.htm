@@ -1,0 +1,74 @@
+<!--{hook palugin_haya_blog_article_comment_list_inc_start.htm}-->
+
+<?php if (!empty($haya_blog_article_comment_list)) { 
+    foreach($haya_blog_article_comment_list as &$_comment) { ?>
+    <li class="media tap haya-blog-comment" data-href="<?php echo haya_blog_url("article-$_comment[aid]");?>#reply_<?php echo $_comment['id']; ?>" data-cid="<?php echo $_comment['id'];?>">
+        
+        <a href="<?php echo url("user-".$_comment['user']['uid']);?>" tabindex="-1" class="ml-1 mt-1 mr-3 user-avatar-<?php echo $_comment['user']['uid'];?> user-<?php echo $_comment['user']['uid'];?>">
+            <img class="avatar-3" src="<?php echo $_comment['user']['avatar_url'];?>">
+        </a>
+        <!--{hook palugin_haya_blog_article_comment_list_avatar_after.htm}-->
+
+        <div class="media-body">
+            <div class="d-flex justify-content-between small text-muted">
+                <div>
+                    <!--{hook palugin_haya_blog_article_comment_list_username_before.htm}-->
+                    <span class="username mr-2">
+                        <a href="<?php echo url("user-".$_comment['user']['uid']);?>" class="text-muted font-weight-bold"><?php echo $_comment['user']['username'];?></a>
+                    </span>
+                    <!--{hook palugin_haya_blog_article_comment_list_username_after.htm}-->
+                    
+                    <!--{hook palugin_haya_blog_article_comment_list_create_date_before.htm}-->
+                    <span class="date text-grey"><?php echo humandate($_comment['create_date']);?></span>
+                    <!--{hook palugin_haya_blog_article_comment_list_create_date_after.htm}-->
+                     
+                </div>
+                <div class="text-right text-grey">
+                    <!--{hook palugin_haya_blog_article_comment_list_quote_before.htm}-->
+                    <a href="javascript:void(0)" 
+                        data-aid="<?php echo $_comment['aid'];?>" 
+                        data-cid="<?php echo $_comment['id'];?>" 
+                        data-username="<?php echo $_comment['user']['username'];?>" 
+                        data-content="<?php echo xn_substr($_comment['content'], 0, 100);?>" 
+                        class="text-grey mr-3 haya-blog-comment-reply js-haya-blog-comment-reply-btn"
+                    >
+                        <i class="icon-reply" title="回复"></i> 
+                        <span>回复</span>
+                    </a>
+                    <!--{hook palugin_haya_blog_article_comment_list_quote_after.htm}-->
+                </div>
+            </div>
+            
+            <div class="message mt-1 break-all">
+              
+                <?php if (isset($_comment['reply_comment']) && !empty($_comment['reply_comment'])) { ?>
+                    <blockquote class="blockquote">
+                        <div class="haya-blog-reply-comment-user">
+                            <a href="<?php echo url("user-".$_comment['reply_comment']['user']['uid']);?>" class="text-small text-muted user">
+                                <img class="avatar-1" src="<?php echo $_comment['reply_comment']['user']['avatar_url'];?>">
+                                <?php echo $_comment['reply_comment']['user']['username'];?>
+                            </a>
+                        </div>
+                        <div class="mt-1 haya-blog-reply-comment-content">
+                            <?php echo $_comment['reply_comment']['content'];?>
+                        </div>
+                    </blockquote>
+                <?php } ?>
+                
+                
+                <!--{hook palugin_haya_blog_article_comment_list_content_before.htm}-->
+                    <?php echo $_comment['content'];?>
+                <!--{hook palugin_haya_blog_article_comment_list_content_after.htm}-->
+                
+            </div>
+        </div>
+    </li>
+<?php }} else { ?>
+    <li class="haya-blog-comment haya-blog-no-comment">
+        <div class="text-gray text-center">
+            没有评论
+        </div>
+    </li>
+<?php } ?>
+
+<!--{hook palugin_haya_blog_article_comment_list_end.htm}-->

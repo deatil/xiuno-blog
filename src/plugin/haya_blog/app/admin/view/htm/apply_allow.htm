@@ -1,0 +1,249 @@
+<form action="<?php echo url("haya_blog-apply-allow");?>" method="post" id="haya_blog_apply_allow">    
+    <div class="form-group row">
+        <div class="col-12">
+            申请序列ID：
+            <input type="text" name="haya-blog-apply-id" value="<?php echo $haya_blog_apply['id']; ?>" disabled class="form-control">
+        </div>
+    </div>
+    
+    <div class="form-group row">
+        <div class="col-12">
+            申请用户/UID：
+            <input type="text" value="<?php echo $haya_blog_apply_user['username']; ?> / <?php echo $haya_blog_apply_user['uid']; ?>" disabled class="form-control">
+        </div>
+    </div>
+    
+    <div class="form-group row">
+        <div class="col-12">
+            申请人姓名：
+            <input type="text" disabled value="<?php echo $haya_blog_apply['username']; ?>" class="form-control">
+        </div>
+    </div>
+    
+    <div class="form-group row">
+        <div class="col-12">
+            申请人职业：
+            <input type="text" disabled value="<?php echo $haya_blog_apply['profession']; ?>" class="form-control">
+        </div>
+    </div>
+    
+    <div class="form-group row">
+        <div class="col-12">
+            申请人邮箱：
+            <input type="text" disabled value="<?php echo $haya_blog_apply['email']; ?>" class="form-control">
+        </div>
+    </div>
+    
+    <div class="form-group row">
+        <div class="col-12">
+            申请人电话：
+            <input type="text" disabled value="<?php echo $haya_blog_apply['phone']; ?>" class="form-control">
+        </div>
+    </div>
+    
+    <div class="form-group row">
+        <div class="col-12">
+            申请人地址：
+            <textarea class="form-control" disabled style="height: 100px;"><?php echo $haya_blog_apply['address']; ?></textarea>
+        </div>
+    </div>
+    
+    <div class="form-group row">
+        <div class="col-12">
+            申请人身份证号：
+            <input type="text" disabled value="<?php echo $haya_blog_apply['idcard']; ?>" class="form-control">
+        </div>
+    </div>
+    
+    <div class="form-group row">
+        <div class="col-12">
+            申请原因：
+            <textarea class="form-control" disabled style="height: 100px;"><?php echo $haya_blog_apply['reason']; ?></textarea>
+        </div>
+    </div>
+    
+    <div class="form-group row">
+        <div class="col-12">
+            类型：
+            <div class="haya-blog-apply-type" id="type">
+                <?php if (isset($haya_blog_apply['type']) && $haya_blog_apply['type'] == 2) { ?>
+                    <label class="custom-input custom-radio mr-3">
+                        <input type="radio" disabled name="type" value="1"> 博客申请
+                    </label>
+                    <label class="custom-input custom-radio mr-3">
+                        <input type="radio" disabled name="type" value="2" checked="checked"> 博客再次申请
+                    </label>
+                <?php } else { ?>
+                    <label class="custom-input custom-radio mr-3">
+                        <input type="radio" disabled name="type" value="1" checked="checked"> 博客申请
+                    </label>
+                    <label class="custom-input custom-radio mr-3">
+                        <input type="radio" disabled name="type" value="2"> 博客再次申请
+                    </label>
+                <?php } ?>
+            </div>
+        </div>
+    </div>
+    
+    <div class="form-group row">
+        <div class="col-12">
+            状态：
+            <div class="haya-blog-apply-status" id="status">
+                <?php if (isset($haya_blog_apply['status']) && $haya_blog_apply['status'] == 0) { ?>
+                    <label class="custom-input custom-radio mr-3">
+                        <input type="radio" disabled name="status" value="1"> 正常
+                    </label>
+                    <label class="custom-input custom-radio mr-3">
+                        <input type="radio" disabled name="status" value="0" checked="checked"> 关闭
+                    </label>
+                <?php } else { ?>
+                    <label class="custom-input custom-radio mr-3">
+                        <input type="radio" disabled name="status" value="1" checked="checked"> 正常
+                    </label>
+                    <label class="custom-input custom-radio mr-3">
+                        <input type="radio" disabled name="status" value="0"> 关闭
+                    </label>
+                <?php } ?>
+            </div>
+        </div>
+    </div>
+    
+    <div class="form-group row">
+        <div class="col-12">
+            申请时间：
+            <input type="text" disabled value="<?php echo date('Y-m-d H:i:s', $haya_blog_apply['create_date']); ?>" class="form-control">
+        </div>
+    </div>
+    
+    <?php 
+    if ($haya_blog_apply['state'] == 1) { 
+        $state_disabled = '';
+    } else {
+        $state_disabled = 'disabled';
+    }
+    ?>
+    <div class="form-group row">
+        <div class="col-12">
+            申请状态：
+            <div class="haya-blog-apply-state" id="state">
+                <?php if (isset($haya_blog_apply['state']) && $haya_blog_apply['state'] == 3) { ?>
+                    <label class="custom-input custom-radio mr-3">
+                        <input type="radio" <?php echo $state_disabled; ?> name="state" value="1"> 正在申请
+                    </label>
+                    <label class="custom-input custom-radio mr-3">
+                        <input type="radio" <?php echo $state_disabled; ?> name="state" value="2"> 申请成功
+                    </label>
+                    <label class="custom-input custom-radio mr-3">
+                        <input type="radio" <?php echo $state_disabled; ?> name="state" value="3" checked="checked"> 申请失败
+                    </label>
+                <?php } elseif (isset($haya_blog_apply['state']) && $haya_blog_apply['state'] == 2) { ?>
+                    <label class="custom-input custom-radio mr-3">
+                        <input type="radio" <?php echo $state_disabled; ?> name="state" value="1"> 正在申请
+                    </label>
+                    <label class="custom-input custom-radio mr-3">
+                        <input type="radio" <?php echo $state_disabled; ?> name="state" value="2" checked="checked"> 申请成功
+                    </label>
+                    <label class="custom-input custom-radio mr-3">
+                        <input type="radio" <?php echo $state_disabled; ?> name="state" value="3"> 申请失败
+                    </label>
+                <?php } else { ?>
+                    <label class="custom-input custom-radio mr-3">
+                        <input type="radio" <?php echo $state_disabled; ?> name="state" value="1" checked="checked"> 正在申请
+                    </label>
+                    <label class="custom-input custom-radio mr-3">
+                        <input type="radio" <?php echo $state_disabled; ?> name="state" value="2"> 申请成功
+                    </label>
+                    <label class="custom-input custom-radio mr-3">
+                        <input type="radio" <?php echo $state_disabled; ?> name="state" value="3"> 申请失败
+                    </label>
+                <?php } ?>
+            </div>
+        </div>
+    </div>
+    
+    <?php 
+    if (isset($haya_blog_apply['state']) 
+        && $haya_blog_apply['state'] == 3
+    ) { 
+    ?>
+        <div class="form-group row haya-blog-apply-fail-tip-box">
+            <div class="col-12">
+                申请失败原因：
+                <textarea name="fail_tip" class="form-control" style="min-height: 100px;" name="haya-blog-apply-fail-tip"><?php echo $haya_blog_apply['fail_tip']; ?></textarea>
+            </div>
+        </div>
+    <?php } else { ?>
+        <div class="form-group row haya-blog-apply-fail-tip-box d-none">
+            <div class="col-12">
+                申请失败原因：
+                <textarea name="fail_tip" class="form-control" style="min-height: 100px;" name="haya-blog-apply-fail-tip"><?php echo $haya_blog_apply['fail_tip']; ?></textarea>
+            </div>
+        </div>
+    <?php } ?>
+    
+    <div class="form-group row">
+        <div class="col-12">
+            <?php if ($haya_blog_apply['state'] == 1) { ?>
+                <button type="submit" class="btn btn-primary btn-block mr-2" data-loading-text="<?php echo lang('submiting');?>..."><?php echo lang('confirm');?></button>
+            <?php } ?>
+            
+            <button type="button" class="btn btn-secondary btn-block" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true"><?php echo lang('close');?></span>
+            </button>
+        </div>
+    </div>
+    
+    <div class="form-group row">
+        <div class="col-12">
+            <div class="alert alert-danger alert-custom alert-dismissible mb-0">
+                <i class="icon icon-exclamation-circle mr-2"></i>
+                <span class="haya-blog-error-tip">你可以在这里看到博客申请的详细信息并且批复博客的申请</span>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script ajax-eval="true">
+
+// 接受传参
+var args = args || {jmodal: null, callback: null, arg: null};
+var jmodal = args.jmodal;
+var callback = args.callback;
+var apply_id = args.arg;
+
+var jform = $('#haya_blog_apply_allow');
+var jsubmit = jform.find('button[type="submit"]');
+
+var jstate = jform.find('input[name="state"]');
+jstate.on('click', function() {
+    var state = $(this).val();
+    
+    if (state == 3) {
+        $(".haya-blog-apply-fail-tip-box").removeClass('d-none');
+    } else {
+        $(".haya-blog-apply-fail-tip-box").addClass('d-none');
+    }
+});
+
+jform.on('submit', function() {
+    jform.reset();
+    jsubmit.button('loading');
+    var postdata = jform.serializeObject();
+    postdata.id = apply_id;
+    $.xpost(jform.attr('action'), postdata, function(code, message) {
+        if(code == 0) {
+            jsubmit.button(message);
+            setTimeout(function() {
+                if(jmodal) jmodal.modal('dispose');
+                if(callback) callback(message);
+                window.location.reload();
+            }, 1000);
+        } else {
+            jsubmit.button('reset');
+            return $.alert(message);
+        }
+    });
+    return false;
+});
+    
+</script>

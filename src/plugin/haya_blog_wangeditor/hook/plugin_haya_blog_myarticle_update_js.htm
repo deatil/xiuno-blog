@@ -1,0 +1,156 @@
+<style>
+.w-e-text-container {
+    height: 318px !important;
+}
+.haya-blog-fieldset {
+    padding: 10px;
+    margin: 15px 0 10px 0 !important;
+    border: 1px solid #dee2e6;
+    border-radius: 2px;
+    background: #f8f9fa;
+}
+.haya-blog-attachlist {
+    margin-bottom: 0 !important;
+    max-height: 100px;
+    overflow-y: scroll;
+}
+.haya-blog-attachlist li {
+    padding: 0.2rem 0px;
+}
+</style>
+<script type="text/javascript" src="plugin/haya_blog_wangeditor/static/js-xss/xss.min.js"></script>
+<script type="text/javascript" src="plugin/haya_blog_wangeditor/static/wangeditor/wangEditor.min.js"></script>
+<link rel="stylesheet" href="plugin/haya_blog_wangeditor/static/wangEditor-plugin/wangEditor-fullscreen-plugin/wangEditor-fullscreen-plugin.css">
+<script type="text/javascript" src="plugin/haya_blog_wangeditor/static/wangEditor-plugin/wangEditor-fullscreen-plugin/wangEditor-fullscreen-plugin.js"></script>
+<?php
+$attachlist = haya_blog_attach__find(array(
+    'use_id' => md5('haya-blog-article-'.$id),
+    'uid' => $uid,
+), array(
+    'id' => 1,
+), 1, 1000);
+?>
+<div class="d-none haya-blog-article-attachlist">
+    <?php echo haya_blog_attach_list_html($attachlist, true); ?>
+</div>
+<script>
+function haya_blog_copy_text(text) {
+    var textarea = document.createElement("input");//创建input对象
+    var currentFocus = document.activeElement;//当前获得焦点的元素
+    document.body.appendChild(textarea);//添加元素
+    textarea.value = text;
+    textarea.focus();
+    if (textarea.setSelectionRange) {
+        textarea.setSelectionRange(0, textarea.value.length);//获取光标起始位置到结束位置
+    } else {
+        textarea.select();
+    }
+    
+    try {
+        var flag = document.execCommand("copy");//执行复制
+    } catch(eo) {
+        var flag = false;
+    }
+    document.body.removeChild(textarea);//删除元素
+    currentFocus.focus();
+    return flag;
+}
+
+$(function() {
+    var attach_sa = $(".haya-blog-article-attachlist").find('.fieldset');
+    attach_sa.insertAfter($("#content"));
+    var s = '<div><div id="editor_content" style="height: 350px;"></div></div>';
+    var ec = $(s).find('#editor_content');
+    ec.insertAfter($("#content"));
+    $("#content").hide();
+
+    var E = window.wangEditor;
+    var editor = new E('#editor_content');
+    var content = $('#content');
+    editor.customConfig.onchange = function (html) {
+        // var html = filterXSS(html);
+        // 监控变化，同步更新到 textarea
+        content.val(html)
+    }
+    
+    // 配置服务器端地址
+    editor.customConfig.uploadImgServer = '<?php echo url("haya_blog_wangeditor-create"); ?>';
+    // 将图片大小限制为 3M
+    editor.customConfig.uploadImgMaxSize = 3 * 1024 * 1024;
+    // 限制一次最多上传 2 张图片
+    editor.customConfig.uploadImgMaxLength = 2;
+    // 上传图片时，可自定义filename 
+    editor.customConfig.uploadFileName = 'img';
+    // withCredentials（跨域传递 cookie）
+    editor.customConfig.withCredentials = true;
+    // 将 timeout 时间改为 30s
+    editor.customConfig.uploadImgTimeout = 30000;
+    
+    // 自定义菜单配置
+    editor.customConfig.menus = [
+        'head',  // 标题
+        'bold',  // 粗体
+        'fontSize',  // 字号
+        'fontName',  // 字体
+        'italic',  // 斜体
+        'underline',  // 下划线
+        'strikeThrough',  // 删除线
+        'foreColor',  // 文字颜色
+        'backColor',  // 背景颜色
+        'link',  // 插入链接
+        'list',  // 列表
+        'justify',  // 对齐方式
+        'quote',  // 引用
+        // 'emoticon',  // 表情
+        'image',  // 插入图片
+        'table',  // 表格
+        'video',  // 插入视频
+        'code',  // 插入代码
+        'undo',  // 撤销
+        'redo'  // 重复
+    ];
+    editor.customConfig.zIndex = 100;
+    editor.create();
+    E.fullscreen.init('#editor_content');
+    editor.txt.html(content.val());
+});
+
+$(function() {
+    // 复制
+    $(".haya-blog-attachlist .haya-blog-attach-item > a.haya-blog-attach-link").on('click', function(){
+        var img = $(this).attr('data-img');
+        
+        $.confirm("图片预览", function() {
+            return true;
+        }, {body: '<img src="' + img + '" />'});
+        
+        return false;
+    });
+    
+    // 复制
+    $(".js-haya-blog-attach-copy").on('click', function(){
+        var img = $(this).attr('data-img');
+        
+        var flag = haya_blog_copy_text(img);
+        var msg = flag ? "复制成功，请手动复制到编辑器图片插入！" : "复制失败！";
+        
+        return $.alert(msg);
+    });
+    
+    // 删除
+    $(".js-haya-blog-attach-delete").on('click', function(){
+        var id = $(this).attr('data-id');
+        $.confirm("提示", function() {
+            $.xpost("<?php echo url("haya_blog_wangeditor-delete"); ?>", {id: id}, function(code, message) {
+                if (code != 0) {
+                    return $.alert(message);
+                } else {
+                    $(".haya-blog-attach-"+id).remove();
+                }
+            });
+        }, {'body': "确认要删除该附件吗？"});
+        
+        return false;
+    });
+});
+</script>

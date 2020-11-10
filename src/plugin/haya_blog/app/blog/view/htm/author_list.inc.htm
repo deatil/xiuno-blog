@@ -1,0 +1,55 @@
+<!--{hook plugin_haya_blog_author_list_inc_start.htm}-->
+
+<?php if($blog_articles) { foreach($blog_articles as &$_article) { ?>
+<li class="media thread tap <?php echo isset($_article['top_class']) ? $_article['top_class'] : '';?> " data-href="<?php echo haya_blog_url("article-$_article[id]");?>" data-aid="<?php echo $_article['id'];?>">
+
+    <div class="media-body">
+        <div class="subject break-all">
+        
+            <!--{hook plugin_haya_blog_author_list_inc_top_icon_before.htm}-->
+            <?php if($_article['is_author_top'] > 0) { ?>
+                <i class="icon-top-1" title="置顶"></i>
+            <?php } ?>
+            <!--{hook plugin_haya_blog_author_list_inc_title_top_after.htm}-->
+            
+            <!--{hook plugin_haya_blog_author_list_inc_title_before.htm}-->
+            <a href="<?php echo haya_blog_url("article-$_article[id]");?>">
+                <?php echo $_article['title'];?>
+            </a>
+            <!--{hook plugin_haya_blog_author_list_inc_title_after.htm}-->
+            
+            <!--{hook plugin_haya_blog_author_list_inc_lock_icon_before.htm}-->
+            <?php if($_article['is_reply'] != 1) { ?><i class="icon-lock"></i><?php } ?>
+            <!--{hook plugin_haya_blog_author_list_inc_lock_icon_after.htm}-->
+        </div>
+        
+        <div class="my-2 text-muted break-all description">
+            <?php echo $_article['description'];?>
+        </div>
+        
+        <div class="d-flex justify-content-between small mt-1">
+            <div>
+                <!--{hook plugin_haya_blog_author_list_inc_username_before.htm}-->
+                <span class="username text-grey mr-1" uid="<?php echo $_article['author']['uid'];?>"><?php echo $_article['author']['user']['username'];?></span>
+                <!--{hook plugin_haya_blog_author_list_inc_username_after.htm}-->
+                <span class="date text-grey"><?php echo haya_blog_humandate($_article['create_date']);?></span>
+                <!--{hook plugin_haya_blog_author_list_inc_create_date_after.htm}-->
+            </div>
+            <div class="text-muted small">
+                <!--{hook plugin_haya_blog_author_list_inc_hits_before.htm}-->
+                <span class="ml-2"><i class="icon-eye"></i> <?php echo $_article['hits'];?></span>
+                <!--{hook plugin_haya_blog_author_list_inc_hits_after.htm}-->
+                
+                <!--{hook plugin_haya_blog_author_list_inc_reply_before.htm}-->
+                <span class="ml-2"><i class="icon-comment-o"></i> <?php echo $_article['reply'];?></span>
+                <!--{hook plugin_haya_blog_author_list_inc_reply_after.htm}-->
+            </div>
+        </div>
+    </div>
+</li>
+<?php }} else { ?>
+    <li>
+        <div>没有文章</div>
+    </li>
+<?php } ?>
+<!--{hook plugin_haya_blog_author_list_inc_end.htm}-->

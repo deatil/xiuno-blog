@@ -1,0 +1,219 @@
+<?php include _include(ADMIN_PATH.'view/htm/header.inc.htm'); ?>
+
+<?php include _include($haya_blog_admin_view.'/tab.inc.htm'); ?>
+
+<div class="card">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-12 font-weight-bold line-height-3">
+                <ul class="nav nav-tabs card-header-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="javascript:;">附件列表</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-body">
+        <div class="row mb-0 mb-md-3">
+            <div class="col-md-2 mb-2 mb-md-0">
+                <select id="srchtype" value="<?php echo $srchtype; ?>" class="form-control">
+                    <option value="">搜索类型</option>
+                    <option value="orgfilename">原始文件名称</option>
+                    <option value="filename">文件名称</option>
+                    <option value="uid">用户UID</option>
+                    <option value="use_id">使用的ID</option>
+                </select>
+            </div>
+            
+            <div class="col-md-3 mb-2 mb-md-0">
+                <input type="text" id="keyword" 
+                    placeholder="请输入搜索内容" 
+                    value="<?php echo $keyword; ?>"  
+                    class="form-control" 
+                    data-toggle="tooltip" 
+                    data-placement="top" 
+                    data-original-title="请输入搜索内容"    
+                />
+            </div>
+            <div class="col-md-2 mb-3 mb-md-0">
+                <button id="search" class="form-control btn btn-primary">搜索</button>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered table-hover mb-0" style="min-width: 800px">
+                            <thead>
+                                <tr>
+                                    <th width="60" class="text-center"><?php echo lang('delete');?></th>
+                                    <th width="60" class="text-center">ID</th>
+                                    <th>名称</th>
+                                    <th width="100">文件大小</th>
+                                    <th width="80">文件后缀</th>
+                                    <th width="160">添加时间</th>
+                                    <th width="70" class="text-center">状态</th>
+                                    <th width="100" class="text-center">操作</th>
+                                </tr>
+                            </thead>
+                            
+                            <tbody id="haya_blog_attach_list" class="haya-blog-category-list">
+                                <?php if (!empty($list)) { ?>
+                                    <?php foreach($list as $_v){ ?>
+                                        <tr data-id="<?php echo $_v['id']; ?>" class="haya-blog-attach-<?php echo $_v['id']; ?>">
+                                            <td width="60" class="text-center"><input type="checkbox" name="delete" /></td>
+                                            <td width="60" class="text-center"><?php echo $_v['id']; ?></td>
+                                            <td class="break-all">
+                                                <?php echo $_v['orgfilename']; ?>
+                                            </td>
+                                            <td width="100">
+                                                <?php echo haya_blog_humansize($_v['filesize']); ?>
+                                            </td>
+                                            <td width="80">
+                                                <?php echo $_v['fileext']; ?>
+                                            </td>
+                                            <td width="160">
+                                                <?php echo date('Y-m-d H:i:s', $_v['create_date']); ?>
+                                            </td>
+                                            <td width="70" class="text-center">
+                                                <?php if (!empty($_v['use_id'])) { ?>
+                                                    <span class="text-info">
+                                                        已使用
+                                                    </span>
+                                                <?php } else { ?>
+                                                    <span class="text-danger">
+                                                        未使用
+                                                    </span>
+                                                <?php } ?>
+                                            </td>
+                                            <td width="100" class="text-center">
+                                                <a class="btn btn-sm btn-info" 
+                                                    href="javascript:;"
+                                                    data-modal-url="<?php echo url("haya_blog-attach-detail-".$_v['id']); ?>"
+                                                    data-modal-title="附件详情" 
+                                                    data-modal-arg="<?php echo $_v['id']; ?>" 
+                                                    data-modal-size="md" 
+                                                >详情</a>
+                                            </td>
+                                        </tr>
+                                    <?php } ?>
+                                <?php } else { ?>
+                                    <tr>
+                                        <td colspan="8">
+                                            <div class="text-center text-grey py-3">
+                                                没有发现记录
+                                            </div>
+                                        </td>
+                                    </tr>
+                                <?php } ?>
+                                
+                            </tbody>
+                            
+                            <tfoot>
+                                <tr>
+                                    <td class="text-center border-right-0">
+                                        <input type="checkbox" data-target="input[name='delete']" class="checkall mt-2" value="" aria-label="全选">
+                                    </td>
+                                    <td colspan="7">
+                                        <div class="container d-none d-lg-block">
+                                            <div class="row">
+                                                <div class="col-5">
+                                                    <button class="btn btn-sm js-haya-blog-attach-delete">删除</button>
+                                                
+                                                    <span class="ml-3 text-muted">
+                                                        共有 <?php echo intval($total); ?> 条记录，每页 <?php echo $pagesize; ?> 条。 
+                                                    </span>
+                                                </div>
+                                                <div class="col-7">
+                                                    <?php if (!empty($pagination)) { ?>
+                                                        <ul class="pagination mb-0 pull-right"><?php echo $pagination; ?></ul>
+                                                    <?php } ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                            
+                                        <div class="container d-block d-lg-none" style="max-width: 100% !important;">
+                                            <div class="row">
+                                                <div class="col-3">
+                                                    <button class="btn btn-sm js-haya-blog-attach-delete">删除</button>
+                                                </div>
+                                                <div class="col-9">
+                                                    <?php if (!empty($pagination)) { ?>
+                                                        <ul class="pagination mb-0 pull-right"><?php echo $pagination; ?></ul>
+                                                    <?php } ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+<?php
+include _include(ADMIN_PATH.'view/htm/footer.inc.htm');
+?>
+
+<script>
+$(function() {
+    $('#nav li.nav-item-haya_blog').addClass('active');
+    $('[data-toggle="tooltip"]').tooltip();
+
+    var jsearch = $("#search");
+    var jsrchtype = $("#srchtype");
+    var jkeyword = $('#keyword');
+    
+    jsrchtype.val(jsrchtype.attr('value'));
+
+    jsearch.on('click', function() {
+        var srchtype = jsrchtype.val();
+        srchtype = srchtype ? srchtype : '';
+        var keyword = $("#keyword").val();
+        var url = xn.url('haya_blog-attach-'+srchtype+'-'+xn.urlencode(keyword)+'-1');
+        window.location = url;
+    });
+    jkeyword.on('keydown', function(e) {
+        if (e.keyCode == 13) {
+            jsearch.trigger('click')
+        };
+    });
+
+    // 删除选中
+    $(".js-haya-blog-attach-delete").on('click', function(){
+        var jchecked = $("#haya_blog_attach_list").find('input[name="delete"]').filter(function(){ return this.checked; });
+        if (jchecked.length < 1) {
+            return $.alert("请选择要删除的附件");
+        }
+        
+        if (jchecked.length > 1) {
+            return $.alert("删除的附件只能选择一个");
+        }
+        
+        $.confirm("确认要删除所选中附件吗？", function() {
+            jchecked.each(function() {
+                jtr = $(this).parents('tr');
+                var id = jtr.attr('data-id');
+                $.xpost(xn.url('haya_blog-attach-delete'), {id: id}, function(code, message) {
+                    if (code != 0) {
+                        return $.alert(message);
+                    } else {
+                        $(".haya-blog-attach-"+id).remove();
+                    }
+                });
+            });
+        });
+        
+        return false;
+    });
+});
+</script>

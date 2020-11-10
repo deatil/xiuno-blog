@@ -1,0 +1,73 @@
+<?php include _include(ADMIN_PATH.'view/htm/header.inc.htm'); ?>
+
+<?php include _include($admin_view.'/tab.inc.htm'); ?>
+
+<div class="row">
+    <div class="col-sm-12">
+        
+        <div class="card">
+            <div class="card-body">
+                <form action="<?php echo url('haya_blog_tags-setting');?>" method="post" id="formcreate">
+                    <h4 class="card-title mb-3">设置</h4>
+                    
+                    <hr class="mb-4" />
+                    
+                    <div class="form-group row mb-3 mt-4">
+                        <label class="col-md-2 form-control-label text-md-right pr-0" for="max_tag_num">
+                            最大标签数：
+                        </label>
+                        <div class="col-md-8">
+                            <input type="text" name="max_tag_num" id="max_tag_num" value="<?php echo isset($config['max_tag_num']) ? intval($config['max_tag_num']) : '10'; ?>" class="form-control">
+                            <div class="figure-caption mt-2">
+                                文章能够设置的最大标签数量
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group row mb-3 mt-4">
+                        <label class="col-md-2 form-control-label text-md-right pr-0" for="tag_pagesize">
+                            标签每页数：
+                        </label>
+                        <div class="col-md-8">
+                            <input type="text" name="tag_pagesize" id="tag_pagesize" value="<?php echo isset($config['tag_pagesize']) ? intval($config['tag_pagesize']) : '20'; ?>" class="form-control">
+                            <div class="figure-caption mt-2">
+                                标签列表每页的数量
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group row mb-3 mt-4">
+                        <label class="col-md-2 form-control-label text-md-right pr-0" for="article_pagesize">
+                            每页文章数：
+                        </label>
+                        <div class="col-md-8">
+                            <input type="text" name="article_pagesize" id="article_pagesize" value="<?php echo isset($config['article_pagesize']) ? intval($config['article_pagesize']) : '10'; ?>" class="form-control">
+                            <div class="figure-caption mt-2">
+                                标签每页的文章数量
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group row mb-3">
+                        <label class="col-md-2 form-control-label"></label>
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-primary btn-block mr-2 mb-2" id="submit"><?php echo lang('save'); ?></button>
+                        </div>
+                        <div class="col-md-2">
+                            <a role="button" class="btn btn-secondary btn-block mb-2" href="javascript:history.back();"><?php echo lang('back'); ?></a>
+                        </div>
+                    </div>
+                    
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<?php
+include _include(ADMIN_PATH.'view/htm/footer.inc.htm');
+?>
+
+<script>
+$('#nav li.nav-item-plugin').addClass('active');
+</script>

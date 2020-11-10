@@ -1,0 +1,17 @@
+<link rel="stylesheet" href="plugin/haya_blog_tags/static/bootstrap-tagsinput/bootstrap-tagsinput.css">
+<script type="text/javascript" src="plugin/haya_blog_tags/static/bootstrap-tagsinput/bootstrap-tagsinput.js"></script>
+<style>
+.bootstrap-tagsinput {
+    width: 100%;
+}
+</style>
+<script>
+$(function() {
+    var tagsinput = $("input[data-role=tagsinput], select[multiple][data-role=tagsinput]");
+    var tag_input = tagsinput.tagsinput('input');
+    tag_input.bind("blur", function(){
+        tagsinput.tagsinput('add', tag_input.val());
+        $(this).val("");
+    });
+});
+</script>

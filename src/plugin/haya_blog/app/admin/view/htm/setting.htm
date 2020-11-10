@@ -1,0 +1,295 @@
+<?php include _include(ADMIN_PATH.'view/htm/header.inc.htm'); ?>
+
+<?php include _include($haya_blog_admin_view.'/tab.inc.htm'); ?>
+
+<div class="row">
+    <div class="col-sm-12">
+        
+        <div class="card">
+            <div class="card-body">
+                <form action="<?php echo url('haya_blog-setting');?>" method="post" id="formcreate">
+                    <h4 class="card-title mb-3"><?php echo $header['title']; ?></h4>
+                    
+                    <hr class="mb-4" />
+                    
+                    <div class="form-group row">
+                        <label class="col-md-2 form-control-label text-md-right pr-0" for="open_blog">
+                            <b class="text-dark">开启博客：</b>
+                        </label>
+                        <div class="col-md-8">
+                            <div class="open-group-download" id="open_blog">
+                                <?php if (isset($config['open_blog']) && $config['open_blog'] == 1) { ?>
+                                    <label class="custom-input custom-radio mr-3">
+                                        <input type="radio" name="open_blog" value="1" checked="checked"> <?php echo lang('enable'); ?>
+                                    </label>
+                                    <label class="custom-input custom-radio mr-3">
+                                        <input type="radio" name="open_blog" value="0"> <?php echo lang('disable'); ?>
+                                    </label>
+                                <?php } else { ?>
+                                    <label class="custom-input custom-radio mr-3">
+                                        <input type="radio" name="open_blog" value="1"> <?php echo lang('enable'); ?>
+                                    </label>
+                                    <label class="custom-input custom-radio mr-3">
+                                        <input type="radio" name="open_blog" value="0" checked="checked"> <?php echo lang('disable'); ?>
+                                    </label>
+                                <?php } ?>
+                            </div>        
+                            
+                            <div class="figure-caption mt-2">
+                                博客是否开启
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group row mb-3 mt-4">
+                        <label class="col-md-2 form-control-label text-md-right pr-0" for="close_blog_tip">
+                            关闭博客提示：
+                        </label>
+                        <div class="col-md-8">
+                            <textarea class="form-control" placeholder="提示信息" name="close_blog_tip" id="close_blog_tip" rows="5"><?php echo isset($config['close_blog_tip']) ? trim($config['close_blog_tip']) : ''; ?></textarea>
+                            
+                            <div class="figure-caption mt-2">
+                                博客关闭时的提示信息
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group row mb-3 mt-4">
+                        <label class="col-md-2 form-control-label text-md-right pr-0 d-none d-md-block" for="poll_group">
+                            &nbsp;
+                        </label>
+                        <div class="col-md-8">
+                            <hr />
+                        </div>
+                    </div>
+                    
+                    <div class="form-group row mb-3 mt-4">
+                        <label class="col-md-2 form-control-label text-md-right pr-0" for="blog_name">
+                            <b class="text-dark">博客标识：</b>
+                        </label>
+                        <div class="col-md-8">
+                            <input type="text" name="blog_name" id="blog_name" value="<?php echo isset($config['blog_name']) ? trim($config['blog_name']) : ''; ?>" class="form-control">
+                            <div class="figure-caption mt-2">
+                                博客在URL里的标识，比如：haya_blog
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group row mb-3 mt-4">
+                        <label class="col-md-2 form-control-label text-md-right pr-0" for="blog_article_pagesize">
+                            文章每页数量：
+                        </label>
+                        <div class="col-md-8">
+                            <input type="text" name="blog_article_pagesize" id="blog_article_pagesize" value="<?php echo isset($config['blog_article_pagesize']) ? intval($config['blog_article_pagesize']) : '10'; ?>" class="form-control">
+                            <div class="figure-caption mt-2">
+                                文章每页的默认数量
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group row mb-3 mt-4">
+                        <label class="col-md-2 form-control-label text-md-right pr-0" for="blog_article_comment_pagesize">
+                            文章评论每页数量：
+                        </label>
+                        <div class="col-md-8">
+                            <input type="text" name="blog_article_comment_pagesize" id="blog_article_comment_pagesize" value="<?php echo isset($config['blog_article_comment_pagesize']) ? intval($config['blog_article_comment_pagesize']) : '10'; ?>" class="form-control">
+                            <div class="figure-caption mt-2">
+                                文章评论每页的数量
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group row mb-3 mt-4">
+                        <label class="col-md-2 form-control-label text-md-right pr-0" for="open_article_comment">
+                            开启评论：
+                        </label>
+                        <div class="col-md-8">
+                            <div class="open-group-download" id="open_article_comment">
+                                <?php if (isset($config['open_article_comment']) && $config['open_article_comment'] == 1) { ?>
+                                    <label class="custom-input custom-radio mr-3">
+                                        <input type="radio" name="open_article_comment" value="1" checked="checked"> <?php echo lang('enable'); ?>
+                                    </label>
+                                    <label class="custom-input custom-radio mr-3">
+                                        <input type="radio" name="open_article_comment" value="0"> <?php echo lang('disable'); ?>
+                                    </label>
+                                <?php } else { ?>
+                                    <label class="custom-input custom-radio mr-3">
+                                        <input type="radio" name="open_article_comment" value="1"> <?php echo lang('enable'); ?>
+                                    </label>
+                                    <label class="custom-input custom-radio mr-3">
+                                        <input type="radio" name="open_article_comment" value="0" checked="checked"> <?php echo lang('disable'); ?>
+                                    </label>
+                                <?php } ?>
+                            </div>
+                            
+                            <div class="figure-caption mt-2">
+                                设置全局文章是否开启评论
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group row mb-3 mt-4">
+                        <label class="col-md-2 form-control-label text-md-right pr-0 d-none d-md-block" for="poll_group">
+                            &nbsp;
+                        </label>
+                        <div class="col-md-8">
+                            <hr />
+                        </div>
+                    </div>
+                    
+                    <div class="form-group row mb-3 mt-4">
+                        <label class="col-md-2 form-control-label text-md-right pr-0" for="blog_author_category_max_num">
+                            专栏最大分类数：
+                        </label>
+                        <div class="col-md-8">
+                            <input type="text" name="blog_author_category_max_num" id="blog_author_category_max_num" value="<?php echo isset($config['blog_author_category_max_num']) ? intval($config['blog_author_category_max_num']) : '5'; ?>" class="form-control">
+                            <div class="figure-caption mt-2">
+                                用户专栏最大分类数量
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group row mb-3 mt-4">
+                        <label class="col-md-2 form-control-label text-md-right pr-0" for="blog_author_article_pagesize">
+                            专栏每页数量：
+                        </label>
+                        <div class="col-md-8">
+                            <input type="text" name="blog_author_article_pagesize" id="blog_author_article_pagesize" value="<?php echo isset($config['blog_author_article_pagesize']) ? intval($config['blog_author_article_pagesize']) : '10'; ?>" class="form-control">
+                            <div class="figure-caption mt-2">
+                                专栏文章每页的默认数量
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group row mb-3 mt-4">
+                        <label class="col-md-2 form-control-label text-md-right pr-0 d-none d-md-block" for="poll_group">
+                            &nbsp;
+                        </label>
+                        <div class="col-md-8">
+                            <hr />
+                        </div>
+                    </div>
+                    
+                    <div class="form-group row">
+                        <label class="col-md-2 form-control-label text-md-right pr-0" for="open_apply_group">
+                            <b class="text-dark">用户组申请博客：</b>
+                        </label>
+                        <div class="col-md-8">
+                            <div class="open-group-download" id="open_apply_group">
+                                <?php if (isset($config['open_apply_group']) && $config['open_apply_group'] == 1) { ?>
+                                    <label class="custom-input custom-radio mr-3">
+                                        <input type="radio" name="open_apply_group" value="1" checked="checked"> <?php echo lang('enable'); ?>
+                                    </label>
+                                    <label class="custom-input custom-radio mr-3">
+                                        <input type="radio" name="open_apply_group" value="0"> <?php echo lang('disable'); ?>
+                                    </label>
+                                <?php } else { ?>
+                                    <label class="custom-input custom-radio mr-3">
+                                        <input type="radio" name="open_apply_group" value="1"> <?php echo lang('enable'); ?>
+                                    </label>
+                                    <label class="custom-input custom-radio mr-3">
+                                        <input type="radio" name="open_apply_group" value="0" checked="checked"> <?php echo lang('disable'); ?>
+                                    </label>
+                                <?php } ?>
+                            </div>        
+                            
+                            <div class="figure-caption mt-2">
+                                是否开启用户组申请博客，没有在所选用户组的用户将不能够申请博客及开通博客。
+                            </div>
+                        </div>
+                    </div>    
+                    
+                    <div class="form-group row mb-3 mt-4">
+                        <label class="col-md-2 form-control-label text-md-right pr-0" for="poll_group">
+                            申请博客用户组：
+                        </label>
+                        <div class="col-md-8">
+                            <div class="card">
+                                <div class="container">
+                                    <div class="row has-success pt-2">
+                                        <?php foreach($grouplist as $_gid => $_group) { ?>
+                                            <div class="col-sm-6 col-md-4 col-lg-3">
+                                                <label class="form-control-label">
+                                                    <?php if (isset($config['apply_group']) && in_array($_gid, $config['apply_group'])) { ?>
+                                                        <input type="checkbox" class="checkbox" checked="checked" name="apply_gid[]" value="<?php echo $_gid; ?>" />
+                                                    <?php } else { ?>
+                                                        <input type="checkbox" class="checkbox" name="apply_gid[]" value="<?php echo $_gid; ?>" />
+                                                    <?php } ?>
+                                                    <?php echo $_group['name']; ?>
+                                                </label>
+                                            </div>
+                                        <?php } ?>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="figure-caption mt-2">
+                                申请博客所需用户组，启用 “<span class="text-info">用户组申请博客</span>” 有效。
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group row mb-3 mt-4">
+                        <label class="col-md-2 form-control-label text-md-right pr-0" for="apply_group_tip">
+                            不在用户组提示：
+                        </label>
+                        <div class="col-md-8">
+                            <textarea class="form-control" placeholder="提示" name="apply_group_tip" id="apply_group_tip" rows="5"><?php echo isset($config['apply_group_tip']) ? trim($config['apply_group_tip']) : ''; ?></textarea>
+                            
+                            <div class="figure-caption mt-2">
+                                用户不在所选用户组时的提示信息。{user_group}为用户的用户组，{apply_group}为能够申请博客的用户组。
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group row mb-3 mt-4">
+                        <label class="col-md-2 form-control-label text-md-right pr-0" for="articlemod_group">
+                            文章管理用户组：
+                        </label>
+                        <div class="col-md-8">
+                            <div class="card">
+                                <div class="container">
+                                    <div class="row has-success pt-2">
+                                        <?php foreach($grouplist as $_gid => $_group) { ?>
+                                            <div class="col-sm-6 col-md-4 col-lg-3">
+                                                <label class="form-control-label">
+                                                    <?php if (isset($config['articlemod_group']) && in_array($_gid, $config['articlemod_group'])) { ?>
+                                                        <input type="checkbox" class="checkbox" checked="checked" name="articlemod_group[]" value="<?php echo $_gid; ?>" />
+                                                    <?php } else { ?>
+                                                        <input type="checkbox" class="checkbox" name="articlemod_group[]" value="<?php echo $_gid; ?>" />
+                                                    <?php } ?>
+                                                    <?php echo $_group['name']; ?>
+                                                </label>
+                                            </div>
+                                        <?php } ?>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="figure-caption mt-2">
+                                能够管理文章的用户组
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group row mb-3">
+                        <label class="col-md-2 form-control-label"></label>
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-primary btn-block mr-2 mb-2" id="submit"><?php echo lang('save'); ?></button>
+                        </div>
+                        <div class="col-md-2">
+                            <a role="button" class="btn btn-secondary btn-block mb-2" href="javascript:history.back();"><?php echo lang('back'); ?></a>
+                        </div>
+                    </div>
+                    
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<?php
+include _include(ADMIN_PATH.'view/htm/footer.inc.htm');
+?>
+
+<script>
+$('#nav li.nav-item-haya_blog').addClass('active');
+</script>

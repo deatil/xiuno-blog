@@ -1,0 +1,92 @@
+<?php include _include(APP_PATH.'view/htm/header.inc.htm');?>
+
+<div class="card">
+    <div class="card-header">文章操作</div>
+    <div class="card-body ajax-body">
+        <form action="" method="post" id="haya_blog_article_mod_form">
+            <div class="form-group row">
+                <label class="col-4 form-control-label text-right">
+                    操作：
+                </label>
+                <div class="col-8">
+                    <label class="custom-input custom-radio">
+                        <input type="radio" name="option" value="open" id="haya_blog_article_mod_option_open" />启用
+                    </label>　
+                    <label class="custom-input custom-radio">
+                        <input type="radio" name="option" value="close" checked="checked" id="haya_blog_article_mod_option_close" />禁用
+                    </label>　
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-4 form-control-label text-right"></label>
+                <div class="col-8">
+                    <button type="submit" class="btn btn-primary" data-loading-text="<?php echo lang('submiting');?>..."><?php echo lang('confirm');?></button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><?php echo lang('close');?></button>
+                </div>
+            </div>
+        </form>
+        
+        <div class="alert alert-danger d-none haya-blog-mod-alert">
+            <i class="icon icon-exclamation-circle mr-2"></i>
+            <span class="haya-blog-mod-alert-tip"></span>
+        </div>
+    </div>
+</div>
+
+<?php include _include(APP_PATH.'view/htm/footer.inc.htm');?>
+
+<script ajax-eval="true">
+
+// 接受传参
+var args = args || {jmodal: null, callback: null, arg: null};
+var jmodal = args.jmodal;
+var callback = args.callback;
+var arg = args.arg;
+var jmod = $(arg);  // .haya-blog-mod-reply
+
+var article_id = jmod.attr('data-id');
+var action_url = jmod.attr('data-url');
+var action_value = jmod.attr('data-value');
+
+var jform = $('#haya_blog_article_mod_form');
+var jsubmit = jform.find('button[type="submit"]');
+
+var joption = jform.find('input[name="option"]');
+joption.prop("checked", false);
+
+if (action_value == 1) {
+    $("#haya_blog_article_mod_option_open").prop("checked",true);
+} else {
+    $("#haya_blog_article_mod_option_close").prop("checked",true);
+}
+
+var jalert = $('.haya-blog-mod-alert');
+
+jform.on('submit', function() {
+    jform.reset();
+    jsubmit.button('loading');
+    var postdata = jform.serializeObject();
+    postdata.id = article_id;
+    postdata.option = joption.checked();
+    $.xpost(action_url, postdata, function(code, message) {
+        if(code == 0) {
+            jsubmit.button(message);
+            setTimeout(function() {
+                if(jmodal) jmodal.modal('dispose');
+                if(callback) callback(message);
+                window.location.reload();
+            }, 1000);
+        } else {
+            jalert.find(".haya-blog-mod-alert-tip").text(message);
+            jalert.removeClass("d-none");
+            setTimeout(function() {
+                jalert.addClass("d-none");
+            }, 3000);
+            
+            jsubmit.button('reset');
+        }
+    });
+    return false;
+});
+    
+</script>

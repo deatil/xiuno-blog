@@ -1,0 +1,33 @@
+<?php
+$tags = explode(',', $haya_blog_article['tags']);
+?>
+<style>
+.haya-blog-tag-item {
+    display: inline-block;
+    font-size: 12px;
+    color: #999;
+    margin: 0 0 8px 10px;
+    position: relative;
+    cursor: pointer;
+}
+.haya-blog-tag-item .haya-blog-tag-content {
+    height: 22px;
+    line-height: 20px;
+    border: 1px solid #ccc;
+    border-radius: 100px;
+    padding: 0 10px;
+    transition: .3s;
+    -webkit-transition: .3s;
+    box-sizing: border-box;
+    display: inline-block;
+}
+</style>
+<?php if (!empty($tags)) { ?>
+    <?php foreach ($tags as $tag) { ?>
+        <a href="<?php echo url("haya_blog_tags-tag", array('name' => xn_urlencode($tag))); ?>" target="_blank" class="mt-3 haya-blog-tag-item">
+            <span class="haya-blog-tag-content">
+                <?php echo $tag; ?>
+            </span>
+        </a>
+    <?php } ?>
+<?php } ?>

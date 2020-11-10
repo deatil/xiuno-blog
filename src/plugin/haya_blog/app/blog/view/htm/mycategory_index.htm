@@ -1,0 +1,133 @@
+<template include="./view/htm/my.common.template.htm">
+    <slot name="my_nav">
+        <?php include haya_blog_theme_view('my_nav.inc.htm'); ?>
+    </slot>
+    
+    <slot name="my_body">
+        <div class="haya-blog-category">
+            <div class="card">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-hover mb-0" style="min-width: 800px">
+                        <thead>
+                            <tr>
+                                <th width="60" class="text-center"><?php echo lang('delete');?></th>
+                                <th>名称</th>
+                                <th>分类标识</th>
+                                <th width="60" class="text-center">排序</th>
+                                <th width="160">添加时间</th>
+                                <th width="70" class="text-center">状态</th>
+                                <th width="100" class="text-center">操作</th>
+                            </tr>
+                        </thead>
+                        
+                        <tbody id="haya_blog_category_list" class="haya-blog-category-list">
+                            <?php if (!empty($categorys)) { ?>
+                                <?php foreach($categorys as $_category){ ?>
+                                    <tr data-id="<?php echo $_category['id']; ?>" class="haya-blog-category-<?php echo $_category['id']; ?>">
+                                        <td width="60" class="text-center"><input type="checkbox" name="delete" /></td>
+                                        <td class="break-all">
+                                            <?php if ($_category['is_lock'] == 1) { ?>
+                                                <span class="label label-danger">锁</span>
+                                            <?php } ?>
+                                            
+                                            <?php echo $_category['title']; ?>
+                                        </td>
+                                        <td><?php echo $_category['name']; ?></td>
+                                        <td width="60" class="text-center"><?php echo $_category['sort']; ?></td>
+                                        <td width="160">
+                                            <?php echo date('Y-m-d H:i:s', $_category['create_date']); ?>
+                                        </td>
+                                        <td width="70" class="text-center">
+                                            <?php if ($_category['is_open'] == 1) { ?>
+                                                <span class="text-info">
+                                                    已启用
+                                                </span>
+                                            <?php } else { ?>
+                                                <span class="text-danger">
+                                                    已禁用
+                                                </span>
+                                            <?php } ?>
+                                        </td>
+                                        <td width="100" class="text-center">
+                                            <a class="btn btn-sm btn-success" href="<?php echo haya_blog_url("mycategory-update-".$_category['id']); ?>">编辑</a>
+                                        </td>
+                                    </tr>
+                                <?php } ?>
+                            <?php } else { ?>
+                                <tr>
+                                    <td colspan="7">
+                                        <div class="text-center text-grey py-3">
+                                            没有发现分类记录
+                                        </div>
+                                    </td>
+                                </tr>
+                            <?php } ?>
+                            
+                        </tbody>
+                        
+                        <tfoot>
+                            <tr>
+                                <td class="text-center border-right-0">
+                                    <input type="checkbox" data-target="input[name='delete']" class="checkall mt-2" value="" aria-label="全选">                
+                                </td>
+                                <td colspan="6">
+                                    <div class="container haya-blog-table-action">
+                                        <div class="row">
+                                            <div class="col-5">
+                                                <button class="btn btn-sm js-haya-blog-category-delete">删除</button>
+                                                <a href="<?php echo haya_blog_url("mycategory-create"); ?>" class="btn btn-sm btn-primary ml-2">添加</a>
+                                     
+                                                <span class="ml-3 text-muted">
+                                                    共有 <?php echo intval($total); ?> 条记录，每页 <?php echo $pagesize; ?> 条。 
+                                                </span>
+                                            </div>
+                                            <div class="col-7">
+                                                <?php if (!empty($pagination)) { ?>
+                                                    <ul class="pagination mb-0 pull-right"><?php echo $pagination; ?></ul>
+                                                <?php } ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                
+            </div>
+        </div>
+    </slot>
+</template>
+
+<script>
+$(function() {
+    $('a[data-active="menu-haya-blog"]').addClass('active');
+    $('a[data-active="my-haya-blog-category"]').addClass('active');
+    
+
+    // 删除选中
+    $(".js-haya-blog-category-delete").on('click', function(){
+        var jchecked = $("#haya_blog_category_list").find('input[name="delete"]').filter(function(){ return this.checked; });
+        if (jchecked.length < 1) {
+            return $.alert("请选择要删除的分类");
+        }
+        
+        $.confirm("确认要删除所选中分类吗？", function() {
+            jchecked.each(function() {
+                jtr = $(this).parents('tr');
+                var id = jtr.attr('data-id');
+                $.xpost("<?php echo haya_blog_url('mycategory-delete'); ?>", {id: id}, function(code, message) {
+                    if (code != 0) {
+                        return $.alert(message);
+                    } else {
+                        $(".haya-blog-category-"+id).remove();
+                    }
+                });
+            });
+        });
+        
+        return false;
+    });
+    
+});
+</script>

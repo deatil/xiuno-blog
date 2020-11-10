@@ -1,0 +1,48 @@
+<?php
+$articlemod_group = haya_blog_config('articlemod_group');
+if (!empty($articlemod_group) && in_array($gid, $articlemod_group)) {
+?>
+<div class="card card-article-mod">
+    <div class="card-body">
+        <div class="haya-blog-article-mod">
+            <!--{hook plugin_haya_blog_article_action_before.htm}-->
+            <span class="haya-blog-mod-action">管理：</span>
+            
+            <!--{hook plugin_haya_blog_article_recommend_before.htm}-->
+            <a href="javascript:;" class="ml-2 haya-blog-mod-btn haya-blog-mod-recommend" 
+                data-modal-url="<?php echo haya_blog_url('articlemod'); ?>" 
+                data-modal-title="推荐文章" 
+                data-modal-arg=".haya-blog-mod-recommend" 
+                data-modal-size="md"
+                data-id="<?php echo $haya_blog_article['id'];?>"
+                data-url="<?php echo haya_blog_url('articlemod-recommend'); ?>" 
+                data-value="<?php echo $haya_blog_article['is_recommend'];?>"
+            >推荐</a>
+            
+            <!--{hook plugin_haya_blog_article_lock_before.htm}-->
+            <a href="javascript:;" class="ml-2 haya-blog-mod-btn haya-blog-mod-lock" 
+                data-modal-url="<?php echo haya_blog_url('articlemod'); ?>" 
+                data-modal-title="锁定文章" 
+                data-modal-arg=".haya-blog-mod-lock" 
+                data-modal-size="md"
+                data-id="<?php echo $haya_blog_article['id'];?>"
+                data-url="<?php echo haya_blog_url('articlemod-lock'); ?>" 
+                data-value="<?php echo $haya_blog_article['is_lock'];?>"
+            >锁定</a>
+            
+            <!--{hook plugin_haya_blog_article_reply_before.htm}-->
+            <a href="javascript:;" class="ml-2 haya-blog-mod-btn haya-blog-mod-reply" 
+                data-modal-url="<?php echo haya_blog_url('articlemod'); ?>" 
+                data-modal-title="文章评论" 
+                data-modal-arg=".haya-blog-mod-reply" 
+                data-modal-size="md"
+                data-id="<?php echo $haya_blog_article['id'];?>"
+                data-url="<?php echo haya_blog_url('articlemod-reply'); ?>" 
+                data-value="<?php echo $haya_blog_article['is_reply'];?>"
+            >评论</a>
+            
+            <!--{hook plugin_haya_blog_article_mod_after.htm}-->
+        </div>
+    </div>
+</div>
+<?php } ?>

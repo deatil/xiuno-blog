@@ -1,0 +1,17 @@
+<?php 
+$haya_blog_check_apply = haya_blog_check_apply($gid);
+$haya_blog_check_author = haya_blog_check_author($uid);
+if ($haya_blog_check_author) { 
+?>
+    <a href="<?php echo haya_blog_url('mysetting');?>" class="list-group-item list-group-item-action" data-active="menu-haya-blog">我的专栏</a>
+<?php } else { ?>
+    <a href="<?php echo haya_blog_url('mycomment');?>" class="list-group-item list-group-item-action" data-active="menu-haya-blog">我的评论</a>
+    
+    <?php if ($haya_blog_check_apply 
+        && (param(0) == haya_blog_config('blog_name')
+            && param(1) == 'apply'
+        )
+    ) { ?>
+        <a href="<?php echo haya_blog_url('apply');?>" class="list-group-item list-group-item-action" data-active="menu-haya-blog-apply">申请专栏</a>
+    <?php } ?>
+<?php } ?>

@@ -1,0 +1,103 @@
+<?php include _include(APP_PATH.'view/htm/header.inc.htm');?>
+
+<!--{hook plugin_haya_blog_tags_index_start.htm}-->
+
+<style>
+.haya-blog-tags-item {
+}
+.haya-blog-tags-item > div {
+    border: 1px solid #dee2e6;
+    height: 100%;
+}
+</style>
+<div class="row">
+    <div class="col-lg-9 main">
+        <!--{hook plugin_haya_blog_tags_index_breadcrumb_before.htm}-->
+        <?php if(empty($hide_breadcrumb)) { ?>
+        <ol class="breadcrumb d-none d-md-flex">
+            <li class="breadcrumb-item"><a href="./" aria-label="<?php echo lang('index_page');?>"><i class="icon-home"></i></a></li>
+            <li class="breadcrumb-item active"><a href="<?php echo url("haya_blog_tags-index");?>">标签</a></li>
+            <!--{hook plugin_haya_blog_tags_index_breadcrumb.htm}-->
+        </ol>
+        <?php } ?>
+        <!--{hook plugin_haya_blog_tags_index_breadcrumb_after.htm}-->
+        
+        <div class="card card-threadlist">
+            <div class="card-header d-flex justify-content-between">
+                <ul class="nav nav-tabs card-header-tabs">
+                    <li class="nav-item haya-blog-index-nav">
+                        <a class="nav-link active" href="javascript:;">标签</a>
+                    </li>
+                    <!--{hook plugin_haya_blog_tags_index_list_nav_item_after.htm}-->
+                </ul>
+                
+                <!--{hook plugin_haya_blog_tags_index_nav_after.htm}-->
+            </div>
+            
+            <div class="card-body container">
+                <div class="row">
+                    <!--{hook plugin_haya_blog_tags_index_taglist_before.htm}-->
+                    <?php include _include($view_path . '/index_list.inc.htm');?>
+                    <!--{hook plugin_haya_blog_tags_index_taglist_after.htm}-->
+                </div>
+            </div>
+        </div>
+        
+        <!--{hook plugin_haya_blog_tags_index_page_before.htm}-->
+        <nav class="my-3">
+            <ul class="pagination justify-content-center flex-wrap">
+                <?php echo $pagination; ?>
+            </ul>
+        </nav>
+        <!--{hook plugin_haya_blog_tags_index_page_after.htm}-->
+    </div>
+    
+    <div class="col-lg-3 d-none d-lg-block aside">
+        <!--{hook plugin_haya_blog_tags_index_side_start.htm}-->
+    
+        <div class="card">
+            <div class="card-header">最新标签</div>
+        
+            <div class="card-body py-3">
+                
+                <ul class="list-unstyled haya-blog-recommend-list m-0">
+                    <?php $i = 1; ?>
+                    <?php if($new_tags) { foreach($new_tags as & $_new_tag) { ?>
+                        <li class="media haya-blog-li line-height-2" data-id="<?php echo $_new_tag['id'];?>">
+                            <div class="media-body small">
+                                <a title="<?php echo $_new_tag['name'];?>" href="<?php echo url("haya_blog_tags-tag", array('name' => xn_urlencode($_new_tag['name'])));?>">
+                                    <?php echo $_new_tag['name'];?>
+                                </a>
+                                
+                                <span class="pull-right" title="<?php echo date('Y-m-d H:i:s', $_new_tag['create_date']); ?>">
+                                    <?php echo haya_blog_tags_humandate($_new_tag['create_date']); ?>
+                                </span>
+                            </div>
+                        </li>
+                        <?php $i ++; ?>
+                    <?php }} else { ?>
+                        <li class="media py-1">
+                            <div class="text-center text-muted">没有数据</div>
+                        </li>
+                    <?php } ?>
+                </ul>
+            </div>
+        </div>
+        
+        <!--{hook plugin_haya_blog_tags_index_recommend_after.htm}-->
+        
+    </div>
+</div>
+
+
+<!--{hook plugin_haya_blog_tags_index_end.htm}-->
+
+<?php include _include(APP_PATH.'view/htm/footer.inc.htm');?>
+
+<script>
+$(function() {
+    $('li[data-active="haya-blog"]').addClass('active');
+});
+</script>
+
+<!--{hook plugin_haya_blog_tags_index_js.htm}-->

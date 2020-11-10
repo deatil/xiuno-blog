@@ -1,0 +1,33 @@
+<ul class="nav nav-tabs card-header-tabs">
+    <!--{hook plugin_haya_blog_my_nav_start.htm}-->
+    
+    <?php if (haya_blog_check_author($uid)) { ?>
+        
+        <!--{hook plugin_haya_blog_my_nav_setting_before.htm}-->
+        <li class="nav-item">
+            <a class="nav-link " href="<?php echo haya_blog_url("mysetting");?>" data-active="my-haya-blog-setting">设置</a>
+        </li>
+        <!--{hook plugin_haya_blog_my_nav_setting_after.htm}-->
+        
+        <!--{hook plugin_haya_blog_my_nav_category_before.htm}-->
+        <li class="nav-item">
+            <a class="nav-link" href="<?php echo haya_blog_url("mycategory");?>" data-active="my-haya-blog-category">分类</a>
+        </li>
+        <!--{hook plugin_haya_blog_my_nav_category_after.htm}-->
+        
+        <!--{hook plugin_haya_blog_my_nav_article_before.htm}-->
+        <li class="nav-item">
+            <a class="nav-link" href="<?php echo haya_blog_url("myarticle");?>" data-active="my-haya-blog-article">文章</a>
+        </li>
+        <!--{hook plugin_haya_blog_my_nav_article_after.htm}-->
+    
+    <?php } ?>
+    
+    <!--{hook plugin_haya_blog_my_nav_comment_before.htm}-->
+    <li class="nav-item">
+        <a class="nav-link" href="<?php echo haya_blog_url("mycomment");?>" data-active="my-haya-blog-comment">评论</a>
+    </li>
+    <!--{hook plugin_haya_blog_my_nav_comment_after.htm}-->
+    
+    <!--{hook plugin_haya_blog_my_nav_end.htm}-->
+</ul>

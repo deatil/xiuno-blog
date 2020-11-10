@@ -1,0 +1,252 @@
+<?php include _include(APP_PATH.'view/htm/header.inc.htm');?>
+
+<!--{hook plugin_haya_blog_author_start.htm}-->
+
+<div class="row">
+    <div class="col-lg-9 main">
+        <!--{hook plugin_haya_blog_author_breadcrumb_before.htm}-->
+        <?php if(empty($hide_breadcrumb)) { ?>
+        <ol class="breadcrumb d-none d-md-flex">
+            <li class="breadcrumb-item"><a href="./" aria-label="<?php echo lang('index_page');?>"><i class="icon-home"></i></a></li>
+            <li class="breadcrumb-item"><a href="<?php echo haya_blog_url();?>">专栏</a></li>
+            <?php if (!empty($category_name) && $category_name != 'all') { ?>
+                <li class="breadcrumb-item"><a href="<?php echo haya_blog_url("author-".$blog_name);?>"><?php echo $blog_info['title'];?></a></li>
+                <li class="breadcrumb-item active"><a href="<?php echo haya_blog_url("author-".$blog_name."-".$category_name);?>"><?php echo $select_category['title'];?></a></li>
+            <?php } else { ?>
+                <li class="breadcrumb-item active"><a href="<?php echo haya_blog_url("author-".$blog_name);?>"><?php echo $blog_info['title'];?></a></li>
+            <?php } ?>
+            <!--{hook plugin_haya_blog_author_breadcrumb.htm}-->
+        </ol>
+        <?php } ?>
+        <!--{hook plugin_haya_blog_author_breadcrumb_after.htm}-->
+                
+        <div class="card card-threadlist">
+            <div class="card-header d-flex justify-content-between">
+                <ul class="nav nav-tabs card-header-tabs">
+                    <li class="nav-item">
+                        <div class="nav-link active card-header-dropdown">
+                            <div class="dropdown btn-group">
+                                <a href="javascript:;" class="dropdown-toggle" id="category_dropdown_menu" 
+                                    data-toggle="dropdown" 
+                                    aria-haspopup="true" 
+                                    aria-expanded="false"
+                                    >
+                                    <?php if (!empty($category_name) && $category_name != 'all') { ?>
+                                        <?php echo $select_category['title']; ?>
+                                    <?php } else { ?>
+                                        全部
+                                    <?php } ?>
+                                    <!--{hook plugin_haya_blog_author_thread_list_category_dropdown_toggle.htm}-->
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-left" 
+                                    aria-labelledby="category_dropdown_menu">
+                                    <a class="dropdown-item" href="<?php echo haya_blog_url("author-".$blog_name."-all");?>">
+                                        <i class="icon text-primary <?php echo ((empty($category_name) || $category_name == 'all') ? 'icon-check' : ''); ?>"></i>
+                                        &nbsp; 全部
+                                    </a>
+                                    <?php if($blog_categorys) { foreach($blog_categorys as &$_blog_category) { ?>
+                                        <a class="dropdown-item" href="<?php echo haya_blog_url("author-".$blog_name."-".$_blog_category['name']);?>">
+                                            <i class="icon text-primary <?php echo (($category_name == $_blog_category['name']) ? 'icon-check' : ''); ?>"></i>
+                                            &nbsp; <?php echo $_blog_category['title']; ?>
+                                        </a>
+                                    <?php }} ?>
+                                    <!--{hook plugin_haya_blog_author_thread_list_category_dropdown_menu.htm}-->
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </li>
+                    <!--{hook plugin_haya_blog_author_thread_list_nav_item_after.htm}-->
+                </ul>
+                
+                <!--{hook plugin_haya_blog_author_thread_list_dropdown_before.htm}-->
+                <div class="text-right text-small pt-1 card-header-dropdown">
+                    <div class="btn-toolbar" role="toolbar">
+                        <span class="text-muted">排序：</span>
+                        <div class="dropdown btn-group">
+                            <a href="#" class="dropdown-toggle" id="ordery_dropdown_menu" 
+                                data-toggle="dropdown" 
+                                aria-haspopup="true" 
+                                aria-expanded="false"
+                                >
+                                <?php echo $order == 'hits' ? '热门文章' : '最新发布'; ?>
+                                <!--{hook plugin_haya_blog_author_thread_list_dropdown_toggle.htm}-->
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right" 
+                                aria-labelledby="ordery_dropdown_menu">
+                                <a class="dropdown-item" href="<?php echo haya_blog_url("author-".$blog_name."-".$category_name."-1", array('order'=>'time') + $extra);?>">
+                                    <i class="icon text-primary <?php echo $order == 'time' ? 'icon-check' : '';?>"></i>
+                                    &nbsp; 最新发布
+                                </a>
+                                <a class="dropdown-item" href="<?php echo haya_blog_url("author-".$blog_name."-".$category_name."-1", array('order'=>'hits') + $extra);?>">
+                                    <i class="icon text-primary <?php echo $order == 'hits' ? 'icon-check' : '';?>"></i>
+                                    &nbsp; 热门文章
+                                </a>
+                                <!--{hook plugin_haya_blog_author_thread_list_dropdown_menu.htm}-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--{hook plugin_haya_blog_author_thread_list_dropdown_after.htm}-->
+            </div>
+            
+            <div class="card-body">
+                <ul class="list-unstyled threadlist mb-0">
+                    <!--{hook plugin_haya_blog_author_articlelist_before.htm}-->
+                    <?php include haya_blog_theme_view('author_list.inc.htm');?>
+                    <!--{hook plugin_haya_blog_author_articlelist_after.htm}-->
+                </ul>
+            </div>
+        </div>
+        
+        <!--{hook plugin_haya_blog_author_page_before.htm}-->
+        <nav class="my-3">
+            <ul class="pagination justify-content-center flex-wrap">
+                <?php echo $pagination; ?>
+            </ul>
+        </nav>
+        <!--{hook plugin_haya_blog_author_page_after.htm}-->
+    </div>
+    
+    <div class="col-lg-3 d-none d-lg-block aside">
+        <!--{hook plugin_haya_blog_article_create_before.htm}-->
+    
+        <?php 
+        $haya_blog_check_apply = haya_blog_check_apply($gid);
+        $haya_blog_check_author = haya_blog_check_author($uid);
+        if ($haya_blog_check_author) { 
+        ?>
+            <a role="button" class="btn btn-primary btn-block mb-3" href="<?php echo haya_blog_url("myarticle-create"); ?>" target="_blank">
+                发布文章
+            </a>
+        <?php } elseif ($haya_blog_check_apply) { ?>
+            <a role="button" class="btn btn-primary btn-block mb-3" class="list-group-item list-group-item-action" href="<?php echo haya_blog_url('apply');?>">申请专栏</a>
+        <?php } ?>
+        
+        <!--{hook plugin_haya_blog_article_user_before.htm}-->
+        
+        <div class="card card-user-info">
+            <div class="m-3 text-center">
+                <a href="<?php echo haya_blog_url("author-".$author_info['name']);?>" tabindex="-1" title="<?php echo $author_info['title'];?>">
+                    <img class="avatar-5" src="<?php echo $author_info['cover_url'];?>" alt="<?php echo $author_info['title'];?>">
+                </a>
+                <h5 class="mt-1">
+                    <a href="<?php echo haya_blog_url("author-".$author_info['name']);?>" title="<?php echo $author_info['title'];?>">
+                        <?php echo $author_info['title'];?>
+                    </a>
+                </h5>
+                <!--{hook plugin_haya_blog_article_user_username_after.htm}-->
+            </div>
+            <div class="card-footer p-2">
+                <table class="w-100 small">
+                    <tr align="center">
+                        <td>
+                            <span class="text-muted">文章数</span><br>
+                            <b><?php echo $author_info['articles'];?></b>
+                        </td>
+                        <!--{hook plugin_haya_blog_article_user_articles_after.htm}-->
+                        <td>
+                            <span class="text-muted">评论数</span><br>
+                            <b><?php echo $author_info['comments'];?></b>
+                        </td>
+                        <!--{hook plugin_haya_blog_article_user_comments_after.htm}-->
+                    </tr>
+                </table>
+            </div>
+        </div>
+        
+        <!--{hook plugin_haya_blog_article_user_after.htm}-->
+        
+        <div class="card">
+            <div class="card-header">访问统计</div>
+        
+            <div class="card-body py-3">
+                
+                <ul class="list-unstyled m-0 haya-blog-author-count">
+                    <li class="media haya-blog-li line-height-2 haya-blog-author-count-item">
+                        <div class="media-body small">
+                            <span>
+                                昨天访问
+                            </span>
+                            
+                            <span class="pull-right label label-default" title="<?php echo number_format($author_count['yesterday']); ?>">
+                                <?php echo haya_blog_friend_num($author_count['yesterday']); ?>
+                            </span>
+                        </div>
+                    </li>
+                    <li class="media haya-blog-li line-height-2 haya-blog-author-count-item">
+                        <div class="media-body small">
+                            <span>
+                                今日访问
+                            </span>
+                            
+                            <span class="pull-right label label-default" title="<?php echo number_format($author_count['today']); ?>">
+                                <?php echo haya_blog_friend_num($author_count['today']); ?>
+                            </span>
+                        </div>
+                    </li>
+                    <li class="media haya-blog-li line-height-2 haya-blog-author-count-item">
+                        <div class="media-body small">
+                            <span>
+                                本周访问
+                            </span>
+                            
+                            <span class="pull-right label label-default" title="<?php echo number_format($author_count['week']); ?>">
+                                <?php echo haya_blog_friend_num($author_count['week']); ?>
+                            </span>
+                        </div>
+                    </li>
+                    <li class="media haya-blog-li line-height-2 haya-blog-author-count-item">
+                        <div class="media-body small">
+                            <span>
+                                本月访问
+                            </span>
+                            
+                            <span class="pull-right label label-default" title="<?php echo number_format($author_count['month']); ?>">
+                                <?php echo haya_blog_friend_num($author_count['month']); ?>
+                            </span>
+                        </div>
+                    </li>
+                    <li class="media haya-blog-li line-height-2 haya-blog-author-count-item">
+                        <div class="media-body small">
+                            <span>
+                                今年访问
+                            </span>
+                            
+                            <span class="pull-right label label-default" title="<?php echo number_format($author_count['year']); ?>">
+                                <?php echo haya_blog_friend_num($author_count['year']); ?>
+                            </span>
+                        </div>
+                    </li>
+                    <li class="media haya-blog-li line-height-2 haya-blog-author-count-item">
+                        <div class="media-body small">
+                            <span>
+                                总访问量
+                            </span>
+                            
+                            <span class="pull-right label label-default" title="<?php echo number_format($author_count['total']); ?>">
+                                <?php echo haya_blog_friend_num($author_count['total']); ?>
+                            </span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+        <!--{hook plugin_haya_blog_article_categorys_after.htm}-->
+        
+    </div>
+</div>
+
+
+<!--{hook plugin_haya_blog_author_end.htm}-->
+
+<?php include _include(APP_PATH.'view/htm/footer.inc.htm');?>
+
+<script>
+$(function() {
+    $('li[data-active="haya-blog"]').addClass('active');
+});
+</script>
+
+<!--{hook plugin_haya_blog_author_js.htm}-->

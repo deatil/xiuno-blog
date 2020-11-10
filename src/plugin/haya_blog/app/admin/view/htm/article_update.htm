@@ -1,0 +1,391 @@
+<form action="<?php echo url('haya_blog-article-update');?>" method="post" id="haya_blog_article_update_form">
+    <input type="hidden" name="id" value="<?php echo $id; ?>" style="display: none;">
+    
+    <div class="form-group row mb-3 mt-2">
+        <label class="col-12 form-control-label pr-0" for="category_id">
+            <span class="text-danger font-weight-bold">*</span>
+            分区：
+        </label>
+        <div class="col-12">
+            <select class="custom-select" name="category_id" id="category_id">
+                <option value="">选择分区</option>
+                <?php foreach ($categorys as $category) { ?>
+                    <?php if ($article['category_id'] == $category['id']) { ?>
+                        <option value="<?php echo $category['id']; ?>" selected="selected"><?php echo $category['title']; ?></option>
+                    <?php } else { ?>
+                        <option value="<?php echo $category['id']; ?>"><?php echo $category['title']; ?></option>
+                    <?php } ?>
+                <?php } ?>
+            </select>
+            <div class="figure-caption mt-2">
+                选择文章的分区，以便于整站分区查看
+            </div>
+        </div>
+    </div>
+    
+    <div class="form-group row mb-3 mt-4">
+        <label class="col-12 form-control-label pr-0" for="cid">
+            <span class="text-danger font-weight-bold">*</span>
+            分类：
+        </label>
+        <div class="col-12">
+            <select class="custom-select" name="cid" id="cid">
+                <option value="">选择文章分类</option>
+                <?php foreach ($author_category as $author_category) { ?>
+                    <?php if ($article['category_id'] == $category['id']) { ?>
+                        <option value="<?php echo $author_category['id']; ?>" selected="selected"><?php echo $author_category['title']; ?></option>
+                    <?php } else { ?>
+                        <option value="<?php echo $author_category['id']; ?>"><?php echo $author_category['title']; ?></option>
+                    <?php } ?>
+                <?php } ?>
+            </select>
+            <div class="figure-caption mt-2">
+                选择我设置的文章分类
+            </div>
+        </div>
+    </div>
+    
+    <div class="form-group row mb-3 mt-4">
+        <label class="col-12 form-control-label pr-0" for="title">
+            <span class="text-danger font-weight-bold">*</span>
+            标题：
+        </label>
+        <div class="col-12">
+            <input type="text" name="title" id="title" value="<?php echo $article['title']; ?>" placeholder="填写文章标题" class="form-control">
+            <div class="figure-caption mt-2">
+                设置文章标题，不能为空
+            </div>
+        </div>
+    </div>
+    
+    <div class="form-group row mb-3 mt-4">
+        <label class="col-12 form-control-label pr-0" for="keywords">
+            关键字：
+        </label>
+        <div class="col-12">
+            <input type="text" name="keywords" id="keywords" value="<?php echo $article['keywords']; ?>" placeholder="填写文章关键字" class="form-control">
+            <div class="figure-caption mt-2">
+                设置文章关键字，以半角逗号隔开
+            </div>
+        </div>
+    </div>
+    
+    <div class="form-group row mb-3 mt-4">
+        <label class="col-12 form-control-label pr-0" for="description">
+            描述：
+        </label>
+        <div class="col-12">
+            <textarea class="form-control" style="height: 100px;" placeholder="填写文章的描述" name="description" id="description"><?php echo $article['description']; ?></textarea>
+            <div class="figure-caption mt-2">
+                设置文章相关描述
+            </div>
+        </div>
+    </div>
+    
+    <div class="form-group row haya-blog-is-reprinted">
+        <label class="col-12 form-control-label pr-0" for="is_reprinted">
+            转载：
+        </label>
+        <div class="col-12">
+            <div id="is_reprinted">
+                <?php if ($article['is_reprinted'] == 1) { ?>
+                    <label class="custom-input custom-radio mr-3">
+                        <input type="radio" name="is_reprinted" value="1" checked="checked"> 转载
+                    </label>
+                    <label class="custom-input custom-radio mr-3">
+                        <input type="radio" name="is_reprinted" value="0"> 原创
+                    </label>
+                <?php } else { ?>
+                    <label class="custom-input custom-radio mr-3">
+                        <input type="radio" name="is_reprinted" value="1"> 转载
+                    </label>
+                    <label class="custom-input custom-radio mr-3">
+                        <input type="radio" name="is_reprinted" value="0" checked="checked"> 原创
+                    </label>
+                <?php } ?>
+            </div>
+            
+            <div class="figure-caption mt-2">
+                设置文章的转载状态
+            </div>
+        </div>
+    </div>
+    
+    <div class="form-group row mb-3 mt-4 haya-blog-reprinted-from d-none">
+        <label class="col-12 form-control-label pr-0" for="reprinted_from">
+            转载来源：
+        </label>
+        <div class="col-12">
+            <input type="text" name="reprinted_from" id="reprinted_from" value="<?php echo $article['reprinted_from']; ?>" placeholder="填写文章的转载来源" class="form-control">
+            <div class="figure-caption mt-2">
+                设置文章的转载来源
+            </div>
+        </div>
+    </div>
+    
+    <div class="form-group row">
+        <label class="col-12 form-control-label pr-0" for="is_private">
+            私有：
+        </label>
+        <div class="col-12">
+            <div id="is_private">
+                <?php if ($article['is_private'] == 1) { ?>
+                    <label class="custom-input custom-radio mr-3">
+                        <input type="radio" name="is_private" value="1" checked="checked"> <?php echo lang('enable'); ?>
+                    </label>
+                    <label class="custom-input custom-radio mr-3">
+                        <input type="radio" name="is_private" value="0"> <?php echo lang('disable'); ?>
+                    </label>
+                <?php } else { ?>
+                    <label class="custom-input custom-radio mr-3">
+                        <input type="radio" name="is_private" value="1"> <?php echo lang('enable'); ?>
+                    </label>
+                    <label class="custom-input custom-radio mr-3">
+                        <input type="radio" name="is_private" value="0" checked="checked"> <?php echo lang('disable'); ?>
+                    </label>
+                <?php } ?>
+            </div>
+            
+            <div class="figure-caption mt-2">
+                设置文章的私有状态
+            </div>
+        </div>
+    </div>
+    
+    <div class="form-group row haya-blog-is-top">
+        <label class="col-12 form-control-label pr-0" for="is_author_top">
+            用户置顶：
+        </label>
+        <div class="col-12">
+            <div id="is_author_top">
+                <?php if ($article['is_author_top'] == 1) { ?>
+                    <label class="custom-input custom-radio mr-3">
+                        <input type="radio" name="is_author_top" value="1" checked="checked"> 启用
+                    </label>
+                    <label class="custom-input custom-radio mr-3">
+                        <input type="radio" name="is_author_top" value="0"> 禁用
+                    </label>
+                <?php } else { ?>
+                    <label class="custom-input custom-radio mr-3">
+                        <input type="radio" name="is_author_top" value="1"> 启用
+                    </label>
+                    <label class="custom-input custom-radio mr-3">
+                        <input type="radio" name="is_author_top" value="0" checked="checked"> 禁用
+                    </label>
+                <?php } ?>
+            </div>
+            
+            <div class="figure-caption mt-2">
+                设置文章的在用户专栏页的置顶状态
+            </div>
+        </div>
+    </div>
+    
+    <div class="form-group row haya-blog-is-top">
+        <label class="col-12 form-control-label pr-0" for="is_reply">
+            开启评论：
+        </label>
+        <div class="col-12">
+            <div id="is_reply">
+                <?php if ($article['is_reply'] == 1) { ?>
+                    <label class="custom-input custom-radio mr-3">
+                        <input type="radio" name="is_reply" value="1" checked="checked"> 启用
+                    </label>
+                    <label class="custom-input custom-radio mr-3">
+                        <input type="radio" name="is_reply" value="0"> 禁用
+                    </label>
+                <?php } else { ?>
+                    <label class="custom-input custom-radio mr-3">
+                        <input type="radio" name="is_reply" value="1"> 启用
+                    </label>
+                    <label class="custom-input custom-radio mr-3">
+                        <input type="radio" name="is_reply" value="0" checked="checked"> 禁用
+                    </label>
+                <?php } ?>
+            </div>
+            
+            <div class="figure-caption mt-2">
+                设置文章的是否开启评论
+            </div>
+        </div>
+    </div>
+    
+    <div class="form-group row haya-blog-is-top">
+        <label class="col-12 form-control-label pr-0" for="is_top">
+            置顶：
+        </label>
+        <div class="col-12">
+            <div id="is_top">
+                <?php if ($article['is_top'] == 1) { ?>
+                    <label class="custom-input custom-radio mr-3">
+                        <input type="radio" name="is_top" value="1" checked="checked"> 启用
+                    </label>
+                    <label class="custom-input custom-radio mr-3">
+                        <input type="radio" name="is_top" value="0"> 禁用
+                    </label>
+                <?php } else { ?>
+                    <label class="custom-input custom-radio mr-3">
+                        <input type="radio" name="is_top" value="1"> 启用
+                    </label>
+                    <label class="custom-input custom-radio mr-3">
+                        <input type="radio" name="is_top" value="0" checked="checked"> 禁用
+                    </label>
+                <?php } ?>
+            </div>
+            
+            <div class="figure-caption mt-2">
+                设置文章的置顶状态
+            </div>
+        </div>
+    </div>
+    
+    <div class="form-group row haya-blog-is-top">
+        <label class="col-12 form-control-label pr-0" for="is_recommend">
+            推荐：
+        </label>
+        <div class="col-12">
+            <div id="is_recommend">
+                <?php if ($article['is_recommend'] == 1) { ?>
+                    <label class="custom-input custom-radio mr-3">
+                        <input type="radio" name="is_recommend" value="1" checked="checked"> 启用
+                    </label>
+                    <label class="custom-input custom-radio mr-3">
+                        <input type="radio" name="is_recommend" value="0"> 禁用
+                    </label>
+                <?php } else { ?>
+                    <label class="custom-input custom-radio mr-3">
+                        <input type="radio" name="is_recommend" value="1"> 启用
+                    </label>
+                    <label class="custom-input custom-radio mr-3">
+                        <input type="radio" name="is_recommend" value="0" checked="checked"> 禁用
+                    </label>
+                <?php } ?>
+            </div>
+            
+            <div class="figure-caption mt-2">
+                设置文章的是否推荐文章
+            </div>
+        </div>
+    </div>
+    
+    <div class="form-group row haya-blog-is-top">
+        <label class="col-12 form-control-label pr-0" for="is_lock">
+            锁定文章：
+        </label>
+        <div class="col-12">
+            <div id="is_lock">
+                <?php if ($article['is_lock'] == 1) { ?>
+                    <label class="custom-input custom-radio mr-3">
+                        <input type="radio" name="is_lock" value="1" checked="checked"> 启用
+                    </label>
+                    <label class="custom-input custom-radio mr-3">
+                        <input type="radio" name="is_lock" value="0"> 禁用
+                    </label>
+                <?php } else { ?>
+                    <label class="custom-input custom-radio mr-3">
+                        <input type="radio" name="is_lock" value="1"> 启用
+                    </label>
+                    <label class="custom-input custom-radio mr-3">
+                        <input type="radio" name="is_lock" value="0" checked="checked"> 禁用
+                    </label>
+                <?php } ?>
+            </div>
+            
+            <div class="figure-caption mt-2">
+                设置文章的是否锁定文章
+            </div>
+        </div>
+    </div>
+    
+    <div class="form-group row haya-blog-is-top">
+        <label class="col-12 form-control-label pr-0" for="status">
+            文章状态：
+        </label>
+        <div class="col-12">
+            <div id="status">
+                <?php if ($article['status'] == 1) { ?>
+                    <label class="custom-input custom-radio mr-3">
+                        <input type="radio" name="status" value="1" checked="checked"> 启用
+                    </label>
+                    <label class="custom-input custom-radio mr-3">
+                        <input type="radio" name="status" value="0"> 禁用
+                    </label>
+                <?php } else { ?>
+                    <label class="custom-input custom-radio mr-3">
+                        <input type="radio" name="status" value="1"> 启用
+                    </label>
+                    <label class="custom-input custom-radio mr-3">
+                        <input type="radio" name="status" value="0" checked="checked"> 禁用
+                    </label>
+                <?php } ?>
+            </div>
+            
+            <div class="figure-caption mt-2">
+                设置文章的状态
+            </div>
+        </div>
+    </div>
+    
+    <div class="form-group row mb-3">
+        <div class="col-12">
+            <button type="submit" class="btn btn-primary btn-block mr-2 mb-2" id="submit" data-loading-text="<?php echo lang('submiting');?>..."><?php echo lang('save'); ?></button>
+        </div>
+        <div class="col-12">
+            <a role="button" class="btn btn-secondary btn-block mb-2" href="javascript:;" data-dismiss="modal"><?php echo lang('close'); ?></a>
+        </div>
+    </div>
+    
+</form>
+
+<script ajax-eval="true">
+/** 转载检测 */
+function article_is_reprinted() {
+    var val = $('.haya-blog-is-reprinted input[name="is_reprinted"]:checked').val();
+    if (val == 1) {
+        $('.haya-blog-reprinted-from').removeClass('d-none');
+    } else {
+        $('.haya-blog-reprinted-from').addClass('d-none');
+    }
+}
+
+$(function() {
+    $('a[data-active="menu-haya-blog"]').addClass('active');
+    $('a[data-active="my-haya-blog-article"]').addClass('active');
+    
+    article_is_reprinted();
+    $('.haya-blog-is-reprinted input[name="is_reprinted"]').click(function() {
+        article_is_reprinted();
+    });
+});
+
+$(function() {
+    var args = args || {jmodal: null, callback: null, arg: null};
+    var jmodal = args.jmodal;
+    var callback = args.callback;
+    var arg = args.arg;
+   
+    var jform = $('#haya_blog_article_update_form');
+    var jsubmit = jform.find('button[type="submit"]');
+    jform.on('submit', function() {
+        jform.reset();
+        jsubmit.button('loading');
+        var postdata = jform.serializeObject();
+        
+        $.xpost(jform.attr('action'), postdata, function(code, message) {
+            if(code == 0) {
+                jsubmit.button(message);
+                setTimeout(function() {
+                    if(jmodal) jmodal.modal('dispose');
+                    if(callback) callback(message);
+                    window.location.reload();
+                }, 1000);
+            } else {
+                alert(message);
+                jsubmit.button('reset');
+            }
+        });
+        return false;
+    });
+
+});
+</script>

@@ -1,0 +1,11 @@
+<?php if ($haya_blog_article['is_reprinted'] == 1) { ?>
+    <div class="haya-blog-article-reprinted mt-3">
+        <p class="reprinted">本文来源：</p>
+        <p class="reprinted reprinted-url"><?php echo $haya_blog_article['reprinted_from'];?></p>
+    </div>
+<?php } else { ?>
+    <div class="haya-blog-article-reprinted mt-3">
+        <p class="original">本文为我原创</p>
+        <p class="authority">本文禁止转载或摘编</p>
+    </div>
+<?php } ?>

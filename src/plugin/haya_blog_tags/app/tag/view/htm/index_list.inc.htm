@@ -1,0 +1,22 @@
+<!--{hook plugin_haya_blog_tags_index_list_inc_start.htm}-->
+
+<?php if($list) { foreach($list as &$_v) { ?>
+<div class="col-lg-4 mb-3 haya-blog-tags-item">
+    <div class="card">
+        <div class="card-header">
+            <!--{hook plugin_haya_blog_tags_index_list_inc_name_before.htm}-->
+            <a class="break-all haya-blog-tags-item-name" title="<?php echo $_v['name'];?>" href="<?php echo url("haya_blog_tags-tag", array('name' => xn_urlencode($_v['name'])));?>">
+                <?php echo $_v['name'];?>
+            </a>
+            <!--{hook plugin_haya_blog_tags_index_list_inc_name_after.htm}-->
+        </div>
+        
+        <div class="card-body text-muted break-all haya-blog-tags-item-description">
+            <?php echo $_v['description'];?>
+        </div>
+    </div>
+</div>
+
+<?php }} ?>
+
+<!--{hook plugin_haya_blog_tags_index_list_inc_end.htm}-->

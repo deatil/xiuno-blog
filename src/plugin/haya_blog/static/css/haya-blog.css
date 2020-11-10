@@ -1,0 +1,207 @@
+@charset "UTF-8";
+
+.label {
+  display: inline;
+  padding: .2em .6em .3em;
+  font-size: 75%;
+  font-weight: bold;
+  line-height: 1;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: .25em;
+}
+a.label:hover,
+a.label:focus {
+  color: #fff;
+  text-decoration: none;
+  cursor: pointer;
+}
+.label:empty {
+  display: none;
+}
+.btn .label {
+  position: relative;
+  top: -1px;
+}
+.label-default {
+  background-color: #777;
+}
+.label-default[href]:hover,
+.label-default[href]:focus {
+  background-color: #5e5e5e;
+}
+.label-primary {
+  background-color: #337ab7;
+}
+.label-primary[href]:hover,
+.label-primary[href]:focus {
+  background-color: #286090;
+}
+.label-success {
+  background-color: #5cb85c;
+}
+.label-success[href]:hover,
+.label-success[href]:focus {
+  background-color: #449d44;
+}
+.label-info {
+  background-color: #5bc0de;
+}
+.label-info[href]:hover,
+.label-info[href]:focus {
+  background-color: #31b0d5;
+}
+.label-warning {
+  background-color: #f0ad4e;
+}
+.label-warning[href]:hover,
+.label-warning[href]:focus {
+  background-color: #ec971f;
+}
+.label-danger {
+  background-color: #d9534f;
+}
+.label-danger[href]:hover,
+.label-danger[href]:focus {
+  background-color: #c9302c;
+}
+
+.badge {
+  display: inline-block;
+  min-width: 10px;
+  padding: 3px 7px;
+  font-size: 12px;
+  font-weight: bold;
+  line-height: 1;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  background-color: #777;
+  border-radius: 10px;
+}
+.badge:empty {
+  display: none;
+}
+.btn .badge {
+  position: relative;
+  top: -1px;
+}
+.btn-xs .badge,
+.btn-group-xs > .btn .badge {
+  top: 0;
+  padding: 1px 5px;
+}
+a.badge:hover,
+a.badge:focus {
+  color: #fff;
+  text-decoration: none;
+  cursor: pointer;
+}
+.list-group-item.active > .badge,
+.nav-pills > .active > a > .badge {
+  color: #337ab7;
+  background-color: #fff;
+}
+.list-group-item > .badge {
+  float: right;
+}
+.list-group-item > .badge + .badge {
+  margin-right: 5px;
+}
+
+.break-all {
+    word-break: break-all;
+}
+.table th, .table td {
+    vertical-align: middle!important;
+}
+@media (min-width: 992px) {
+    .pull-lg-right {
+        float: right;
+    }
+}
+
+@media (min-width: 576px) {
+    .container.haya-blog-table-action {
+        max-width: 100% !important;
+    }
+}
+
+.haya-blog-article-mod {
+    border-top: 1px solid rgba(162, 158, 158, 0.1);
+}
+
+.haya-blog-article-reprinted .authority, 
+.haya-blog-article-reprinted .original,
+.haya-blog-article-reprinted .reprinted {
+    display: inline-block;
+    padding-left: 0;
+    color: silver;
+    font-size: 12px;
+    line-height: 15px;
+}
+.haya-blog-article-reprinted .reprinted-url {
+    color: #9E9E9E;
+}
+
+.haya-blog-comment {
+    border-bottom: 1px solid #e9ecef;
+    padding: 0.7rem 0px;
+}
+.haya-blog-comment:last-child {
+    border-bottom: 0;
+}
+.haya-blog-new-comment {
+    padding: 0.7rem 0px;
+}
+
+.haya-blog-comment-reply-body {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+.haya-blog-comment-reply-quote {
+    padding-right: 45px;
+}
+.haya-blog-comment-reply-remove {
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+}
+.haya-blog-comment-reply-username {
+    color: #045ac7;
+}
+
+.haya-blog-li {
+    border-bottom: 1px solid #e9ecef;
+    padding: 0.7rem 0px;
+}
+.haya-blog-li:last-child {
+    border-bottom: 0px;
+}
+
+.haya-blog-category-item {
+    display: inline-block;
+    font-size: 12px;
+    color: #999;
+    position: relative;
+    cursor: pointer;
+}
+.haya-blog-category-item  .haya-blog-category-content {
+    height: 22px;
+    line-height: 20px;
+    border: 1px solid #74a5e2;
+    border-radius: 100px;
+    color: #74a5e2;
+    padding: 0 10px;
+    transition: .3s;
+    -webkit-transition: .3s;
+    box-sizing: border-box;
+    display: inline-block;
+}
+.haya-blog-category-item  .haya-blog-category-content:hover {
+    border: 1px solid #3879ca;
+    color: #3879ca;
+}

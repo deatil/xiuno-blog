@@ -1,0 +1,112 @@
+<template include="./view/htm/my.common.template.htm">
+    <slot name="my_nav">
+        <?php include haya_blog_theme_view('my_nav.inc.htm'); ?>
+    </slot>
+    
+    <slot name="my_body">
+        <div class="haya-blog-category">
+            <form action="<?php echo haya_blog_url('mycategory-create');?>" method="post">
+                
+                <div class="form-group row mb-3 mt-4">
+                    <label class="col-md-2 form-control-label text-md-right pr-0" for="name">
+                        <span class="text-danger font-weight-bold">*</span>
+                        标识：
+                    </label>
+                    <div class="col-md-8">
+                        <input type="text" name="name" id="name" value="" placeholder="填写分类标识" class="form-control">
+                        <div class="figure-caption mt-2">
+                            设置分类标识，不能为空。英文、数字、下划线及其组合
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group row mb-3 mt-4">
+                    <label class="col-md-2 form-control-label text-md-right pr-0" for="title">
+                        <span class="text-danger font-weight-bold">*</span>
+                        名称：
+                    </label>
+                    <div class="col-md-8">
+                        <input type="text" name="title" id="title" value="" placeholder="填写分类名称" class="form-control">
+                        <div class="figure-caption mt-2">
+                            设置分类名称，不能为空
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group row mb-3 mt-4">
+                    <label class="col-md-2 form-control-label text-md-right pr-0" for="keywords">
+                        关键字：
+                    </label>
+                    <div class="col-md-8">
+                        <input type="text" name="keywords" id="keywords" value="" placeholder="填写分类关键字" class="form-control">
+                        <div class="figure-caption mt-2">
+                            设置分类关键字，以半角逗号隔开
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group row mb-3 mt-4">
+                    <label class="col-md-2 form-control-label text-md-right pr-0" for="description">
+                        描述：
+                    </label>
+                    <div class="col-md-8">
+                        <textarea class="form-control" style="height: 100px;" placeholder="请填写分类的描述" name="description" id="description"></textarea>
+                        <div class="figure-caption mt-2">
+                            设置分类相关描述
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group row mb-3 mt-4">
+                    <label class="col-md-2 form-control-label text-md-right pr-0" for="sort">
+                        排序：
+                    </label>
+                    <div class="col-md-8">
+                        <input type="text" name="sort" id="sort" value="100" placeholder="填写专栏分类排序数字" class="form-control">
+                        <div class="figure-caption mt-2">
+                            设置专栏分类排序数字
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group row">
+                    <label class="col-md-2 form-control-label text-md-right pr-0" for="is_open">
+                        状态：
+                    </label>
+                    <div class="col-md-8">
+                        <div id="is_open">
+                            <label class="custom-input custom-radio mr-3">
+                                <input type="radio" name="is_open" value="1" checked="checked"> <?php echo lang('enable'); ?>
+                            </label>
+                            <label class="custom-input custom-radio mr-3">
+                                <input type="radio" name="is_open" value="0"> <?php echo lang('disable'); ?>
+                            </label>
+                        </div>
+                        
+                        <div class="figure-caption mt-2">
+                            设置分类的启用状态
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group row mb-3">
+                    <label class="col-md-2 form-control-label"></label>
+                    <div class="col-md-3">
+                        <button type="submit" class="btn btn-primary btn-block mr-2 mb-2" id="submit"><?php echo lang('save'); ?></button>
+                    </div>
+                    <div class="col-md-3">
+                        <a role="button" class="btn btn-secondary btn-block mb-2" href="javascript:history.back();"><?php echo lang('back'); ?></a>
+                    </div>
+                </div>
+                
+            </form>
+        </div>
+    </slot>
+</template>
+
+<script>
+$(function() {
+    $('a[data-active="menu-haya-blog"]').addClass('active');
+    $('a[data-active="my-haya-blog-category"]').addClass('active');
+});
+</script>

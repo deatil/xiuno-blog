@@ -1,0 +1,129 @@
+<table class="table table-bordered table-hover mb-0">
+    <thead>
+        <tr>
+            <th width="25%" class="text-right">名称</th>
+            <th>内容</th>
+        </tr>
+    </thead>
+    
+    <tbody>
+        <tr>
+            <td width="25%" class="text-right">
+                ID
+            </td>
+            <td>
+                <?php echo $attach['id']; ?>
+            </td>
+        </tr>
+        <tr>
+            <td width="25%" class="text-right">
+                名称
+            </td>
+            <td>
+                <?php echo $attach['filename']; ?>
+            </td>
+        </tr>
+        <tr>
+            <td width="25%" class="text-right">
+                原始名称
+            </td>
+            <td>
+                <?php if (in_array($attach['fileext'], $filetypes['image'])) { ?>
+                    <a href="<?php echo haya_blog_attach_url_in_admin($attach['filename']); ?>" target="_blank" title="点击查看详情">
+                        <?php echo $attach['orgfilename']; ?>
+                    </a>
+                <?php } else { ?>
+                    <?php echo $attach['orgfilename']; ?>
+                <?php } ?>
+            </td>
+        </tr>
+        <tr>
+            <td width="25%" class="text-right">
+                后缀
+            </td>
+            <td>
+                <?php echo $attach['fileext']; ?>
+            </td>
+        </tr>
+        <tr>
+            <td width="25%" class="text-right">
+                类型
+            </td>
+            <td>
+                <?php echo $attach['filetype']; ?>
+            </td>
+        </tr>
+        <tr>
+            <td width="25%" class="text-right">
+                大小
+            </td>
+            <td>
+                <?php echo haya_blog_humansize($attach['filesize']); ?>
+            </td>
+        </tr>
+        <tr>
+            <td width="25%" class="text-right">
+                md5
+            </td>
+            <td>
+                <?php echo $attach['filemd5']; ?>
+            </td>
+        </tr>
+        <tr>
+            <td width="25%" class="text-right">
+                所属UID
+            </td>
+            <td>
+                <?php echo $attach['uid']; ?>
+            </td>
+        </tr>
+        <tr>
+            <td width="25%" class="text-right">
+                所属账号
+            </td>
+            <td>
+                <?php echo $attach_user['username']; ?>
+            </td>
+        </tr>
+        <tr>
+            <td width="25%" class="text-right">
+                使用状态
+            </td>
+            <td>
+                <?php if (!empty($attach['use_id'])) { ?>
+                    <span class="text-info">
+                        已使用
+                    </span>
+                <?php } else { ?>
+                    <span class="text-danger">
+                        未使用
+                    </span>
+                <?php } ?>
+            </td>
+        </tr>
+        <tr>
+            <td width="25%" class="text-right">
+                使用ID
+            </td>
+            <td>
+                <?php echo $attach['use_id']; ?>
+            </td>
+        </tr>
+        <tr>
+            <td width="25%" class="text-right">
+                上传时间
+            </td>
+            <td>
+                <?php echo date('Y-m-d H:i:s', $attach['create_date']); ?>
+            </td>
+        </tr>
+        <tr>
+            <td width="25%" class="text-right">
+                上传IP
+            </td>
+            <td>
+                <?php echo $attach['create_ip']; ?>
+            </td>
+        </tr>
+    </tbody>
+</table>

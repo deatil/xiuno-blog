@@ -1,0 +1,288 @@
+<?php include _include(APP_PATH.'view/htm/header.inc.htm');?>
+
+<!--{hook plugin_haya_blog_article_start.htm}-->
+
+<div class="row">
+    <div class="col-lg-9 main">
+        <!--{hook plugin_haya_blog_article_breadcrumb_before.htm}-->
+        <?php if(empty($hide_breadcrumb)) { ?>
+            <ol class="breadcrumb d-none d-md-flex">
+                <li class="breadcrumb-item"><a href="./" aria-label="<?php echo lang('index_page');?>"><i class="icon-home"></i></a></li>
+                <li class="breadcrumb-item"><a href="<?php echo haya_blog_url();?>">专栏</a></li>
+                <li class="breadcrumb-item"><a href="<?php echo haya_blog_url("author-".$haya_blog_author['name']);?>"><?php echo $haya_blog_author['title'];?></a></li>
+                <li class="breadcrumb-item active"><a href="<?php echo haya_blog_url("author-".$haya_blog_author['name']."-".$haya_blog_article['author_category']['name']);?>"><?php echo $haya_blog_article['author_category']['title'];?></a></li>
+                <!--{hook plugin_haya_blog_article_breadcrumb.htm}-->
+            </ol>
+        <?php } ?>
+        <!--{hook plugin_haya_blog_article_breadcrumb_after.htm}-->
+        
+        <div class="card card-blog">
+            <div class="card-body">
+                <div class="media">
+                    <div class="media-body">
+                        <!--{hook plugin_haya_blog_article_title_before.htm}-->
+                        <h4 class="break-all">
+                            <?php if ($haya_blog_article['is_reprinted'] == 1) { ?>
+                                <span class="label label-success">转</span>
+                            <?php } ?>
+                            <?php if ($haya_blog_article['is_private'] == 1) { ?>
+                                <span class="label label-warning">私</span>
+                            <?php } ?>
+                            
+                            <!--{hook plugin_haya_blog_article_title_start.htm}-->
+                            <?php echo $haya_blog_article['title'];?>
+                            <!--{hook plugin_haya_blog_article_title_end.htm}-->
+                        </h4>
+                        <!--{hook plugin_haya_blog_article_title_after.htm}-->
+                        <div class="d-flex justify-content-between small">
+                            <div>
+                                <!--{hook plugin_haya_blog_article_username_before.htm}-->
+                                <span class="username">
+                                    <a href="<?php echo url("user-".$haya_blog_author['uid']);?>" class="text-muted font-weight-bold"><?php echo $haya_blog_author['user']['username'];?></a>
+                                </span>
+                                <!--{hook plugin_haya_blog_article_username_after.htm}-->
+                                
+                                <!--{hook plugin_haya_blog_article_create_date_before.htm}-->
+                                <span class="date text-grey ml-2"><?php echo humandate($haya_blog_article['create_date']);?></span>
+                                <!--{hook plugin_haya_blog_article_create_date_after.htm}-->
+                                
+                                <!--{hook plugin_haya_blog_article_hits_before.htm}-->
+                                <span class="text-grey ml-2"><i class="icon-eye"></i> <?php echo $haya_blog_article['hits'];?></span>
+                                <!--{hook plugin_haya_blog_article_hits_after.htm}-->
+                            </div>
+                            <div>
+                                <!--{hook plugin_haya_blog_article_update_before.htm}-->
+                                <?php if ($haya_blog_author['uid'] == $uid) { ?>
+                                    <a href="<?php echo haya_blog_url("myarticle-update-".$haya_blog_article['id']);?>" class="text-grey mr-2 post_update"><i class="icon-edit"></i> <?php echo lang('edit');?></a>
+                                <?php } ?>
+                                <!--{hook plugin_haya_blog_article_update_after.htm}-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <hr />
+                
+                <div class="message break-all">
+                    <!--{hook plugin_haya_blog_article_lock_tip_before.htm}-->
+                    
+                    <?php if ($haya_blog_article['is_lock'] == 1) { ?>
+                        <div class="alert alert-warning alert-custom">
+                            <i class="icon icon-exclamation-circle mr-2"></i>
+                            <span class="haya-blog-lock-tip">
+                                <span class="text-danger">注意：</span>
+                                该文章已被锁定，你需要联系管理员解除锁定
+                            </span>
+                        </div>
+                    <?php } ?>
+                    
+                    <!--{hook plugin_haya_blog_article_content_before.htm}-->
+                    <?php echo html_entity_decode($haya_blog_article['content']); ?>
+                    <!--{hook plugin_haya_blog_article_content_after.htm}-->
+                    
+                    <!--{hook plugin_haya_blog_article_category_before.htm}-->
+                    <a href="<?php echo haya_blog_url("index-".$category_info['name']); ?>" target="_blank" class="mt-3 haya-blog-category-item">
+                        <span class="haya-blog-category-content">
+                            <i class="icon-leaf"></i> 
+                            <?php echo $category_info['title']; ?>
+                        </span>
+                    </a>
+                    <!--{hook plugin_haya_blog_article_category_after.htm}-->
+                    
+                    <!--{hook plugin_haya_blog_article_message_after.htm}-->
+                </div>
+                
+                <!--{hook plugin_haya_blog_article_plugin_before.htm}-->
+                <div class="plugin d-flex justify-content-center">
+                    <!--{hook plugin_haya_blog_article_plugin_body.htm}-->
+                </div>
+                <!--{hook plugin_haya_blog_article_plugin_after.htm}-->
+                
+            </div>
+            
+        </div>
+        
+        <!--{hook plugin_haya_blog_article_article_mod_inc_before.htm}-->
+        
+        <?php include haya_blog_theme_view('article_mod.inc.htm');?>
+        
+        <!--{hook plugin_haya_blog_article_page_after.htm}-->
+        
+    </div>
+    
+    <div class="col-lg-3 d-none d-lg-block aside">
+        <!--{hook plugin_haya_blog_article_user_before.htm}-->
+        
+        <div class="card card-user-info">
+            <div class="m-3 text-center">
+                <a href="<?php echo haya_blog_url("author-".$author_info['name']);?>" tabindex="-1" title="<?php echo $author_info['title'];?>">
+                    <img class="avatar-5" src="<?php echo $author_info['cover_url'];?>" alt="<?php echo $author_info['title'];?>">
+                </a>
+                <h5>
+                    <a href="<?php echo haya_blog_url("author-".$author_info['name']);?>" title="<?php echo $author_info['title'];?>">
+                        <?php echo $author_info['title'];?>
+                    </a>
+                </h5>
+                <!--{hook plugin_haya_blog_article_user_username_after.htm}-->
+            </div>
+            <div class="card-footer p-2">
+                <table class="w-100 small">
+                    <tr align="center">
+                        <td>
+                            <span class="text-muted">文章数</span><br>
+                            <b><?php echo $author_info['articles'];?></b>
+                        </td>
+                        <!--{hook plugin_haya_blog_article_user_articles_after.htm}-->
+                        <td>
+                            <span class="text-muted">评论数</span><br>
+                            <b><?php echo $author_info['comments'];?></b>
+                        </td>
+                        <!--{hook plugin_haya_blog_article_user_comments_after.htm}-->
+                    </tr>
+                </table>
+            </div>
+        </div>
+        
+        <!--{hook plugin_haya_blog_article_user_after.htm}-->
+    
+        <div class="card">
+            <div class="card-header">分类</div>
+        
+            <div class="card-body py-3">
+                
+                <ul class="list-unstyled haya-blog-author-category-list m-0">
+                    <li class="media haya-blog-li line-height-2">
+                        <div class="media-body small">
+                            <a title="全部" href="<?php echo haya_blog_url("author-".$author_info['name']); ?>">
+                                全部
+                            </a>
+                            
+                            <span class="pull-right label label-default haya-blog-author-category-articles" title="共有 <?php echo intval($article_count); ?> 篇文章">
+                                <?php echo haya_blog_friend_num($article_count); ?>
+                            </span>
+                        </div>
+                    </li>
+                        
+                    <?php if($blog_categorys) { 
+                        foreach($blog_categorys as & $blog_category) { 
+                    ?>
+                        <li class="media haya-blog-li line-height-2">
+                            <div class="media-body small">
+                                <a title="<?php echo $blog_category['title'];?>" href="<?php echo haya_blog_url("author-".$author_info['name']."-".$blog_category['name']); ?>">
+                                    <?php echo $blog_category['title'];?>
+                                </a>
+                                
+                                <span class="pull-right label label-default haya-blog-author-category-articles" title="共有 <?php echo intval($blog_category['articles']); ?> 篇文章">
+                                    <?php echo haya_blog_friend_num($blog_category['articles']); ?>
+                                </span>
+                            </div>
+                        </li>
+                    <?php }} else { ?>
+                        <li class="media py-1">
+                            <div class="text-center text-muted">没有发现分类</div>
+                        </li>
+                    <?php } ?>
+                </ul>
+            </div>
+        </div>
+        
+        <!--{hook plugin_haya_blog_article_categorys_after.htm}-->
+    
+        <div class="card">
+            <div class="card-header">最新发布</div>
+        
+            <div class="card-body py-3">
+                
+                <ul class="list-unstyled haya-blog-author-newarticle-list m-0">
+                    <?php $article_i = 1; ?>
+                    <?php if($blog_new_articles) { foreach($blog_new_articles as & $blog_new_article) { ?>
+                        <li class="media haya-blog-li line-height-2" data-aid="<?php echo $blog_new_article['id'];?>">
+                            <div class="media-body small">
+                                <a title="<?php echo $blog_new_article['title'];?>" href="<?php echo haya_blog_url("article-$blog_new_article[id]");?>">
+                                    <?php echo $blog_new_article['title'];?>
+                                </a>
+                                
+                                <span class="pull-right haya-blog-article-hits" title="<?php echo date('Y-m-d H:i:s', $blog_new_article['create_date']); ?>">
+                                    <?php echo haya_blog_humandate($blog_new_article['create_date']); ?>
+                                </span>
+                            </div>
+                        </li>
+                        <?php $article_i ++; ?>
+                    <?php }} else { ?>
+                        <li class="media py-1">
+                            <div class="text-center text-muted">没有发现文章</div>
+                        </li>
+                    <?php } ?>
+                </ul>
+            </div>
+        </div>
+        
+        <!--{hook plugin_haya_blog_article_newarticles_after.htm}-->
+        
+    </div>
+</div>
+
+<!--{hook plugin_haya_blog_article_end.htm}-->
+
+<?php include _include(APP_PATH.'view/htm/footer.inc.htm');?>
+
+<script>
+// 缩放图片，适应屏幕大小。
+function resize_image() {
+    var jmessagelist = $('div.message');
+    var first_width = jmessagelist.width(); // 815 : 746; //  734 746
+    jmessagelist.each(function() {
+        var jdiv = $(this);
+        var maxwidth = jdiv.attr('isfirst') ? first_width : jdiv.width(); //  734 746
+        var jmessage_width = Math.min(jdiv.width(), maxwidth);
+        jdiv.find('img, embed, iframe, video').each(function() {
+            var jimg = $(this);
+            var img_width = this.org_width;
+            var img_height = this.org_height;
+            if(!img_width) {
+                var img_width = jimg.attr('width');
+                var img_height = jimg.attr('height');
+                this.org_width = img_width;
+                this.org_height = img_height;
+            }
+            //var percent = xn.min(100, xn.ceil((img_width / jmessage_width) * 100));
+            if(img_width > jmessage_width) {
+                if(this.tagName == 'IMG') {
+                    jimg.width(jmessage_width);
+                    jimg.css('height', 'auto');
+                    jimg.css('cursor', 'pointer');
+                    jimg.on('click', function() {
+                        //window.open(jimg.attr('src'));
+                    });
+                } else {
+                    jimg.width(jmessage_width);
+                    var height = (img_height / img_width) * jimg.width();
+                    jimg.height(height);
+                }
+            }
+        });
+    });
+}
+
+// 对于超宽的表格，加上响应式
+function resize_table() {
+    $('div.message').each(function() {
+        var jdiv = $(this);
+        jdiv.find('table').addClass('table').wrap('<div class="table-responsive"></div>'); 
+    });
+}
+
+$(function() {
+    $('li[data-active="haya-blog"]').addClass('active');
+    
+    resize_image();
+    resize_table();
+    $(window).on('resize', function() {
+        resize_image();
+    });
+});
+
+
+</script>
+
+<!--{hook plugin_haya_blog_article_js.htm}-->
